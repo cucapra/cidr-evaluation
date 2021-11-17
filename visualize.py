@@ -66,10 +66,10 @@ lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
 lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
-width = 1
+width = 0.80
 bench_order = [remove_linalg(x) for x in bench_order]
 
-icarus_labels = [(x) * 3 for x in range(len(bench_order))]
+icarus_labels = [(x) * 4 for x in range(len(bench_order))]
 verilator_labels = [i + width for i in icarus_labels]
 interp_labels = [v + width for v in verilator_labels]
 lowered_labels = [i + width for i in interp_labels]
@@ -233,6 +233,7 @@ ax3.bar(
     label="Icarus Simulation",
     log=True,
     color=colors[0],
+    edgecolor=colors[0],
 )
 
 ax3.bar(
@@ -244,9 +245,36 @@ ax3.bar(
     label="Verilator Simulation",
     log=True,
     color=colors[1],
+    edgecolor=colors[1],
+)
+
+ax3.bar(
+    interp_labels,
+    lowered_sim_mean / interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    label="Interpreter (lowered) Simulation",
+    log=True,
+    color=colors[2],
+    edgecolor=colors[2],
 )
 
 plt.axhline(y=1, color="gray", linestyle="dashed")
+plt.axhline(
+    y=np.average(verilator_sim_mean / interp_sim_mean),
+    color=colors[1],
+    linestyle="dashed",
+)
+plt.axhline(
+    y=np.average(icarus_sim_mean / interp_sim_mean),
+    color=colors[0],
+    linestyle="dashed",
+)
+plt.axhline(
+    y=np.average(lowered_sim_mean / interp_sim_mean),
+    color=colors[2],
+    linestyle="dashed",
+)
 
 # ax3.bar(
 #     interp_labels,
@@ -274,24 +302,24 @@ ax3.set_xlabel("Benchmark program")
 ax3.legend()
 plt.xticks(rotation=45)
 
-fig4, ax4 = plt.subplots()
+# fig4, ax4 = plt.subplots()
 
-ax4.bar(
-    interp_labels,
-    lowered_sim_mean / interp_sim_mean,
-    width,
-    tick_label=bench_order,
-    label="Interpreter (lowered) Simulation",
-    log=True,
-)
+# ax4.bar(
+#     interp_labels,
+#     lowered_sim_mean / interp_sim_mean,
+#     width,
+#     tick_label=bench_order,
+#     label="Interpreter (lowered) Simulation",
+#     log=True,
+# )
 
-ax4.set_ylabel("Time normalized to interpreter simulation")
-ax4.set_xlabel("Benchmark program")
-ax4.legend()
+# ax4.set_ylabel("Time normalized to interpreter simulation")
+# ax4.set_xlabel("Benchmark program")
+# ax4.legend()
 
-# ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
-plt.axhline(y=1, color="gray", linestyle="dashed")
-plt.xticks(rotation=45)
+# # ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
+# plt.axhline(y=1, color="gray", linestyle="dashed")
+# plt.xticks(rotation=45)
 
 
 plt.show()
