@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 from collections import defaultdict
 import csv
+
+sns.set_theme()
 
 icarus = defaultdict(list)
 verilator = defaultdict(list)
@@ -39,23 +43,27 @@ def remove_linalg(name):
 
 bench_order = [x for x in icarus.keys()]
 
-icarus_comp_mean = [float(icarus[bench][0][0]) for bench in bench_order]
-icarus_comp_stddev = [float(icarus[bench][0][1]) for bench in bench_order]
+icarus_comp_mean = np.array([float(icarus[bench][0][0]) for bench in bench_order])
+icarus_comp_stddev = np.array([float(icarus[bench][0][1]) for bench in bench_order])
 
-verilator_comp_mean = [float(verilator[bench][0][0]) for bench in bench_order]
-verilator_comp_stddev = [float(verilator[bench][0][1]) for bench in bench_order]
+verilator_comp_mean = np.array([float(verilator[bench][0][0]) for bench in bench_order])
+verilator_comp_stddev = np.array(
+    [float(verilator[bench][0][1]) for bench in bench_order]
+)
 
-icarus_sim_mean = [float(icarus[bench][1][0]) for bench in bench_order]
-icarus_sim_stddev = [float(icarus[bench][1][1]) for bench in bench_order]
+icarus_sim_mean = np.array([float(icarus[bench][1][0]) for bench in bench_order])
+icarus_sim_stddev = np.array([float(icarus[bench][1][1]) for bench in bench_order])
 
-verilator_sim_mean = [float(verilator[bench][1][0]) for bench in bench_order]
-verilator_sim_stddev = [float(verilator[bench][1][1]) for bench in bench_order]
+verilator_sim_mean = np.array([float(verilator[bench][1][0]) for bench in bench_order])
+verilator_sim_stddev = np.array(
+    [float(verilator[bench][1][1]) for bench in bench_order]
+)
 
-interp_sim_mean = [float(interp[bench][0]) for bench in bench_order]
-interp_sim_stddev = [float(interp[bench][1]) for bench in bench_order]
+interp_sim_mean = np.array([float(interp[bench][0]) for bench in bench_order])
+interp_sim_stddev = np.array([float(interp[bench][1]) for bench in bench_order])
 
-lowered_sim_mean = [float(lowered[bench][0]) for bench in bench_order]
-lowered_sim_stddev = [float(lowered[bench][1]) for bench in bench_order]
+lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
+lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
 width = 0.50
@@ -127,10 +135,111 @@ ax.bar(
     log=True,
 )
 
-plt.xticks(rotation=45)
+
 ax.set_ylabel("Time in second")
-ax.set_title("Benchmark program")
+ax.set_xlabel("Benchmark program")
 ax.legend()
+
+plt.xticks(rotation=45)
+fig2, ax2 = plt.subplots()
+ax2.bar(
+    icarus_labels,
+    icarus_comp_mean / interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    label="Icarus Compilation",
+    log=True,
+)
+ax2.bar(
+    verilator_labels,
+    verilator_comp_mean / interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    label="Verilator Compilation",
+    log=True,
+)
+ax2.bar(
+    interp_labels,
+    lowered_sim_mean / interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    label="Interpreter (lowered) Simulation",
+    log=True,
+)
+
+
+ax2.bar(
+    icarus_labels,
+    icarus_sim_mean / interp_sim_mean,
+    width,
+    bottom=icarus_comp_mean / interp_sim_mean,
+    tick_label=bench_order,
+    label="Icarus Simulation",
+    log=True,
+)
+
+ax2.bar(
+    verilator_labels,
+    verilator_sim_mean / interp_sim_mean,
+    width,
+    bottom=verilator_comp_mean / interp_sim_mean,
+    tick_label=bench_order,
+    label="Verilator Simulation",
+    log=True,
+)
+ax2.set_ylabel("Time normalized to interpreter simulation")
+ax2.set_xlabel("Benchmark program")
+ax2.legend()
+plt.xticks(rotation=45)
+
+fig3, ax3 = plt.subplots()
+
+ax3.bar(
+    interp_labels,
+    interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    yerr=interp_sim_stddev,
+    label="Interpreter Simulation",
+    log=True,
+)
+ax3.bar(
+    lowered_labels,
+    lowered_sim_mean,
+    width,
+    tick_label=bench_order,
+    yerr=lowered_sim_stddev,
+    label="Interpreter (lowered) Simulation",
+    log=True,
+)
+
+
+ax3.bar(
+    icarus_labels,
+    icarus_sim_mean,
+    width,
+    tick_label=bench_order,
+    yerr=icarus_sim_stddev,
+    label="Icarus Simulation",
+    log=True,
+)
+
+ax3.bar(
+    verilator_labels,
+    verilator_sim_mean,
+    width,
+    tick_label=bench_order,
+    yerr=verilator_sim_stddev,
+    label="Verilator Simulation",
+    log=True,
+)
+
+ax3.set_ylabel("Simulation Time in seconds")
+ax3.set_xlabel("Benchmark program")
+ax3.legend()
+
+
+plt.xticks(rotation=45)
 
 
 plt.show()
