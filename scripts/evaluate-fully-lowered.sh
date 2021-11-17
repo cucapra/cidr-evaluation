@@ -11,10 +11,14 @@
      FILE=$3
 INTERVALS=$4
 
+echo "[RUNNING] interpreter simulation (fully-lowered): $PROGRAM"
+
 # Gather Calyx interpreter simulation times.
 for (( i = 0; i < $INTERVALS; ++i ))
 do
     fud e $PROGRAM --to interpreter-out -s futil.flags "-p all" -s verilog.data $DATA \
-    -pr interpreter.interpret -csv \
+    -pr interpreter.interpret -csv -q \
     >> $FILE
 done
+
+echo "[COMPLETE] interpreter simulation (fully-lowered): $PROGRAM"
