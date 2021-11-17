@@ -66,7 +66,7 @@ lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
 lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
-width = 0.75
+width = 1
 bench_order = [remove_linalg(x) for x in bench_order]
 
 icarus_labels = [(x) * 3 for x in range(len(bench_order))]
@@ -78,45 +78,45 @@ colors = sns.color_palette("Set2")
 edge_color = "dimgray"
 
 
-fig, ax = plt.subplots()
-ax.bar(
-    icarus_labels,
-    icarus_comp_mean,
-    width,
-    yerr=icarus_comp_stddev,
-    bottom=icarus_sim_mean,
-    tick_label=bench_order,
-    label="Icarus Compilation",
-    log=True,
-    fill=False,
-    linestyle="-",
-    edgecolor=colors[0],
-)
-ax.bar(
-    verilator_labels,
-    verilator_comp_mean,
-    width,
-    yerr=verilator_comp_stddev,
-    tick_label=bench_order,
-    bottom=verilator_sim_mean,
-    label="Verilator Compilation",
-    linestyle="-",
-    fill=False,
-    log=True,
-    edgecolor=colors[1],
-)
-ax.bar(
-    interp_labels,
-    interp_sim_mean,
-    width,
-    yerr=interp_sim_stddev,
-    tick_label=bench_order,
-    label="Interpreter Simulation",
-    log=True,
-    hatch="\\",
-    # edgecolor=edge_color,
-    color=colors[2],
-)
+# fig, ax = plt.subplots()
+# ax.bar(
+#     icarus_labels,
+#     icarus_comp_mean,
+#     width,
+#     yerr=icarus_comp_stddev,
+#     bottom=icarus_sim_mean,
+#     tick_label=bench_order,
+#     label="Icarus Compilation",
+#     log=True,
+#     fill=False,
+#     linestyle="-",
+#     edgecolor=colors[0],
+# )
+# ax.bar(
+#     verilator_labels,
+#     verilator_comp_mean,
+#     width,
+#     yerr=verilator_comp_stddev,
+#     tick_label=bench_order,
+#     bottom=verilator_sim_mean,
+#     label="Verilator Compilation",
+#     linestyle="-",
+#     fill=False,
+#     log=True,
+#     edgecolor=colors[1],
+# )
+# ax.bar(
+#     interp_labels,
+#     interp_sim_mean,
+#     width,
+#     yerr=interp_sim_stddev,
+#     tick_label=bench_order,
+#     label="Interpreter Simulation",
+#     log=True,
+#     hatch="\\",
+#     # edgecolor=edge_color,
+#     color=colors[2],
+# )
 # ax.bar(
 #     lowered_labels,
 #     lowered_sim_mean,
@@ -128,42 +128,42 @@ ax.bar(
 # )
 
 
-ax.bar(
-    icarus_labels,
-    icarus_sim_mean,
-    width,
-    yerr=icarus_sim_stddev,
-    # bottom=icarus_comp_mean,
-    tick_label=bench_order,
-    label="Icarus Simulation",
-    log=True,
-    # hatch="\\",
-    fill=True,
-    # edgecolor=edge_color,
-    color=colors[0],
-)
+# ax.bar(
+#     icarus_labels,
+#     icarus_sim_mean,
+#     width,
+#     yerr=icarus_sim_stddev,
+#     # bottom=icarus_comp_mean,
+#     tick_label=bench_order,
+#     label="Icarus Simulation",
+#     log=True,
+#     # hatch="\\",
+#     fill=True,
+#     # edgecolor=edge_color,
+#     color=colors[0],
+# )
 
-ax.bar(
-    verilator_labels,
-    verilator_sim_mean,
-    width,
-    yerr=verilator_sim_stddev,
-    # bottom=verilator_comp_mean,
-    tick_label=bench_order,
-    label="Verilator Simulation",
-    log=True,
-    fill=True,
-    # hatch="\\",
-    # edgecolor=edge_color,
-    color=colors[1],
-)
+# ax.bar(
+#     verilator_labels,
+#     verilator_sim_mean,
+#     width,
+#     yerr=verilator_sim_stddev,
+#     # bottom=verilator_comp_mean,
+#     tick_label=bench_order,
+#     label="Verilator Simulation",
+#     log=True,
+#     fill=True,
+#     # hatch="\\",
+#     # edgecolor=edge_color,
+#     color=colors[1],
+# )
 
 
-ax.set_ylabel("Time in second")
-ax.set_xlabel("Benchmark program")
-ax.legend()
+# ax.set_ylabel("Time in second")
+# ax.set_xlabel("Benchmark program")
+# ax.legend()
 
-plt.xticks(rotation=45)
+# plt.xticks(rotation=45)
 fig2, ax2 = plt.subplots()
 ax2.bar(
     icarus_labels,
@@ -173,6 +173,7 @@ ax2.bar(
     label="Icarus Compilation",
     log=True,
     color=colors[0],
+    edgecolor=colors[0],
 )
 ax2.bar(
     verilator_labels,
@@ -182,15 +183,8 @@ ax2.bar(
     label="Verilator Compilation",
     log=True,
     color=colors[1],
+    edgecolor=colors[1],
 )
-# ax2.bar(
-#     interp_labels,
-#     lowered_sim_mean / interp_sim_mean,
-#     width,
-#     tick_label=bench_order,
-#     label="Interpreter (lowered) Simulation",
-# log=True,
-# )
 
 
 ax2.bar(
@@ -203,7 +197,7 @@ ax2.bar(
     log=True,
     hatch="\\",
     fill=False,
-    edgecolor=edge_color,
+    edgecolor=colors[0],
 )
 
 ax2.bar(
@@ -216,12 +210,16 @@ ax2.bar(
     log=True,
     hatch="\\",
     fill=False,
-    edgecolor=edge_color,
+    edgecolor=colors[1],
 )
+plt.axhline(y=1, color="gray", linestyle="dashed")
+
 
 ax2.set_ylabel("Time normalized to interpreter simulation")
 ax2.set_xlabel("Benchmark program")
 ax2.legend()
+
+
 plt.xticks(rotation=45)
 
 fig3, ax3 = plt.subplots()
@@ -248,7 +246,7 @@ ax3.bar(
     color=colors[1],
 )
 
-ax3.hlines(y=1, xmin=-2, xmax=interp_labels[-1] + 1, color="gray", linestyles="dashed")
+plt.axhline(y=1, color="gray", linestyle="dashed")
 
 # ax3.bar(
 #     interp_labels,
@@ -271,11 +269,28 @@ ax3.hlines(y=1, xmin=-2, xmax=interp_labels[-1] + 1, color="gray", linestyles="d
 # )
 
 
-ax3.set_ylabel("Simulation Time in seconds")
+ax3.set_ylabel("Time normalized to interpreter simulation")
 ax3.set_xlabel("Benchmark program")
 ax3.legend()
+plt.xticks(rotation=45)
 
+fig4, ax4 = plt.subplots()
 
+ax4.bar(
+    interp_labels,
+    lowered_sim_mean / interp_sim_mean,
+    width,
+    tick_label=bench_order,
+    label="Interpreter (lowered) Simulation",
+    log=True,
+)
+
+ax4.set_ylabel("Time normalized to interpreter simulation")
+ax4.set_xlabel("Benchmark program")
+ax4.legend()
+
+# ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
+plt.axhline(y=1, color="gray", linestyle="dashed")
 plt.xticks(rotation=45)
 
 
