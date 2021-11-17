@@ -1,0 +1,64 @@
+simulation,stage,mean,median,stddev
+NTT 32,interpreter,0.05,0.05,0.002
+NTT 32,icarus-verilog,1.887,1.885,0.01
+NTT 32,verilog,0.033,0.033,0.002
+NTT 64,interpreter,0.086,0.086,0.003
+NTT 64,icarus-verilog,8.423,8.395,0.063
+NTT 64,verilog,0.109,0.109,0.002
+TCAM 32,interpreter,0.33,0.328,0.006
+TCAM 32,icarus-verilog,3.53,3.511,0.128
+TCAM 32,verilog,0.04,0.041,0.003
+TCAM 64,interpreter,0.625,0.625,0.003
+TCAM 64,icarus-verilog,5.835,5.81,0.109
+TCAM 64,verilog,0.058,0.059,0.003
+Linear Algebra 2MM,interpreter,0.225,0.225,0.004
+Linear Algebra 2MM,icarus-verilog,1.005,1.005,0.008
+Linear Algebra 2MM,verilog,0.049,0.049,0.001
+Linear Algebra 3MM,interpreter,0.232,0.231,0.004
+Linear Algebra 3MM,icarus-verilog,0.781,0.778,0.007
+Linear Algebra 3MM,verilog,0.038,0.038,0.004
+Linear Algebra ATAX,interpreter,0.05,0.051,0.004
+Linear Algebra ATAX,icarus-verilog,0.161,0.161,0.001
+Linear Algebra ATAX,verilog,0.021,0.021,0.001
+Linear Algebra BICG,interpreter,0.039,0.04,0.001
+Linear Algebra BICG,icarus-verilog,0.072,0.072,0.003
+Linear Algebra BICG,verilog,0.015,0.015,0.001
+Linear Algebra DOITGEN,interpreter,0.599,0.597,0.009
+Linear Algebra DOITGEN,icarus-verilog,1.185,1.184,0.008
+Linear Algebra DOITGEN,verilog,0.044,0.044,0.002
+Linear Algebra DURBIN,interpreter,0.035,0.036,0.002
+Linear Algebra DURBIN,icarus-verilog,0.108,0.108,0.003
+Linear Algebra DURBIN,verilog,0.015,0.016,0.002
+Linear Algebra GEMM,interpreter,0.127,0.128,0.003
+Linear Algebra GEMM,icarus-verilog,0.409,0.409,0.005
+Linear Algebra GEMM,verilog,0.033,0.033,0.001
+Linear Algebra GEMVER,interpreter,0.078,0.078,0.002
+Linear Algebra GEMVER,icarus-verilog,0.595,0.595,0.005
+Linear Algebra GEMVER,verilog,0.037,0.037,0.001
+Linear Algebra GESUMMV,interpreter,0.062,0.063,0.002
+Linear Algebra GESUMMV,icarus-verilog,0.273,0.274,0.007
+Linear Algebra GESUMMV,verilog,0.027,0.027,0.001
+Linear Algebra LU,interpreter,0.05,0.05,0.001
+Linear Algebra LU,icarus-verilog,0.128,0.129,0.003
+Linear Algebra LU,verilog,0.02,0.02,0.001
+Linear Algebra LUDCMP,interpreter,0.057,0.058,0.002
+Linear Algebra LUDCMP,icarus-verilog,0.27,0.269,0.003
+Linear Algebra LUDCMP,verilog,0.029,0.029,0.001
+Linear Algebra MVT,interpreter,0.048,0.048,0.003
+Linear Algebra MVT,icarus-verilog,0.161,0.161,0.002
+Linear Algebra MVT,verilog,0.021,0.021,0.002
+Linear Algebra SYMM,interpreter,0.138,0.138,0.002
+Linear Algebra SYMM,icarus-verilog,0.381,0.38,0.007
+Linear Algebra SYMM,verilog,0.031,0.031,0.001
+Linear Algebra SYR2K,interpreter,0.219,0.217,0.006
+Linear Algebra SYR2K,icarus-verilog,0.73,0.728,0.009
+Linear Algebra SYR2K,verilog,0.045,0.045,0.001
+Linear Algebra SYRK,interpreter,0.154,0.153,0.003
+Linear Algebra SYRK,icarus-verilog,0.417,0.416,0.006
+Linear Algebra SYRK,verilog,0.031,0.032,0.002
+Linear Algebra TRISOLV,interpreter,0.026,0.026,0.002
+Linear Algebra TRISOLV,icarus-verilog,0.049,0.048,0.001
+Linear Algebra TRISOLV,verilog,0.012,0.013,0.001
+Linear Algebra TRMM,interpreter,0.08,0.08,0.001
+Linear Algebra TRMM,icarus-verilog,0.151,0.15,0.003
+Linear Algebra TRMM,verilog,0.02,0.019,0.001

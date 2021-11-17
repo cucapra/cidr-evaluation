@@ -1,0 +1,43 @@
+compilation,stage,mean,median,stddev
+NTT 32,icarus-verilog,3.083,3.095,0.049
+NTT 32,verilog,48.234,46.662,7.027
+NTT 64,icarus-verilog,22.812,22.922,0.357
+NTT 64,verilog,201.688,192.84,38.581
+TCAM 32,icarus-verilog,2.355,2.363,0.036
+TCAM 32,verilog,22.453,21.765,3.088
+TCAM 64,icarus-verilog,2.4,2.388,0.062
+TCAM 64,verilog,18.481,17.849,2.922
+Linear Algebra 2MM,icarus-verilog,0.095,0.095,0.003
+Linear Algebra 2MM,verilog,4.376,4.271,0.477
+Linear Algebra 3MM,icarus-verilog,0.069,0.069,0.002
+Linear Algebra 3MM,verilog,9.43,9.393,0.174
+Linear Algebra ATAX,icarus-verilog,0.087,0.087,0.002
+Linear Algebra ATAX,verilog,2.499,2.482,0.08
+Linear Algebra BICG,icarus-verilog,0.051,0.051,0.002
+Linear Algebra BICG,verilog,1.49,1.494,0.101
+Linear Algebra DOITGEN,icarus-verilog,0.048,0.049,0.003
+Linear Algebra DOITGEN,verilog,1.642,1.622,0.085
+Linear Algebra DURBIN,icarus-verilog,0.078,0.078,0.002
+Linear Algebra DURBIN,verilog,3.962,3.95,0.109
+Linear Algebra GEMM,icarus-verilog,0.086,0.085,0.002
+Linear Algebra GEMM,verilog,2.853,2.832,0.094
+Linear Algebra GEMVER,icarus-verilog,0.284,0.283,0.004
+Linear Algebra GEMVER,verilog,4.465,4.284,0.785
+Linear Algebra GESUMMV,icarus-verilog,0.15,0.151,0.002
+Linear Algebra GESUMMV,verilog,2.732,2.596,0.572
+Linear Algebra LU,icarus-verilog,0.059,0.059,0.001
+Linear Algebra LU,verilog,2.11,2.091,0.087
+Linear Algebra LUDCMP,icarus-verilog,0.091,0.09,0.001
+Linear Algebra LUDCMP,verilog,5.475,5.374,0.51
+Linear Algebra MVT,icarus-verilog,0.092,0.091,0.002
+Linear Algebra MVT,verilog,2.917,2.83,0.478
+Linear Algebra SYMM,icarus-verilog,0.064,0.063,0.002
+Linear Algebra SYMM,verilog,2.935,2.915,0.096
+Linear Algebra SYR2K,icarus-verilog,0.084,0.085,0.002
+Linear Algebra SYR2K,verilog,4.548,4.527,0.123
+Linear Algebra SYRK,icarus-verilog,0.062,0.062,0.002
+Linear Algebra SYRK,verilog,5.544,5.523,0.129
+Linear Algebra TRISOLV,icarus-verilog,0.045,0.045,0.002
+Linear Algebra TRISOLV,verilog,1.278,1.279,0.095
+Linear Algebra TRMM,icarus-verilog,0.049,0.049,0.002
+Linear Algebra TRMM,verilog,1.428,1.399,0.105
