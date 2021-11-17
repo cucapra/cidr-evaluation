@@ -66,7 +66,7 @@ lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
 lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
-width = 0.50
+width = 0.75
 bench_order = [remove_linalg(x) for x in bench_order]
 
 icarus_labels = [(x) * 3 for x in range(len(bench_order))]
@@ -84,10 +84,13 @@ ax.bar(
     icarus_comp_mean,
     width,
     yerr=icarus_comp_stddev,
+    bottom=icarus_sim_mean,
     tick_label=bench_order,
     label="Icarus Compilation",
     log=True,
-    color=colors[0],
+    fill=False,
+    linestyle="-",
+    edgecolor=colors[0],
 )
 ax.bar(
     verilator_labels,
@@ -95,9 +98,12 @@ ax.bar(
     width,
     yerr=verilator_comp_stddev,
     tick_label=bench_order,
+    bottom=verilator_sim_mean,
     label="Verilator Compilation",
+    linestyle="-",
+    fill=False,
     log=True,
-    color=colors[1],
+    edgecolor=colors[1],
 )
 ax.bar(
     interp_labels,
@@ -108,7 +114,7 @@ ax.bar(
     label="Interpreter Simulation",
     log=True,
     hatch="\\",
-    edgecolor=edge_color,
+    # edgecolor=edge_color,
     color=colors[2],
 )
 # ax.bar(
@@ -131,9 +137,10 @@ ax.bar(
     tick_label=bench_order,
     label="Icarus Simulation",
     log=True,
-    hatch="\\",
-    fill=False,
-    edgecolor=edge_color,
+    # hatch="\\",
+    fill=True,
+    # edgecolor=edge_color,
+    color=colors[0],
 )
 
 ax.bar(
@@ -145,9 +152,10 @@ ax.bar(
     tick_label=bench_order,
     label="Verilator Simulation",
     log=True,
-    fill=False,
-    hatch="\\",
-    edgecolor=edge_color,
+    fill=True,
+    # hatch="\\",
+    # edgecolor=edge_color,
+    color=colors[1],
 )
 
 
@@ -163,7 +171,7 @@ ax2.bar(
     width,
     tick_label=bench_order,
     label="Icarus Compilation",
-    # log=True,
+    log=True,
     color=colors[0],
 )
 ax2.bar(
@@ -172,7 +180,7 @@ ax2.bar(
     width,
     tick_label=bench_order,
     label="Verilator Compilation",
-    # log=True,
+    log=True,
     color=colors[1],
 )
 # ax2.bar(
@@ -192,7 +200,7 @@ ax2.bar(
     bottom=icarus_comp_mean / interp_sim_mean,
     tick_label=bench_order,
     label="Icarus Simulation",
-    # log=True,
+    log=True,
     hatch="\\",
     fill=False,
     edgecolor=edge_color,
@@ -205,7 +213,7 @@ ax2.bar(
     bottom=verilator_comp_mean / interp_sim_mean,
     tick_label=bench_order,
     label="Verilator Simulation",
-    # log=True,
+    log=True,
     hatch="\\",
     fill=False,
     edgecolor=edge_color,
@@ -220,7 +228,7 @@ fig3, ax3 = plt.subplots()
 
 ax3.bar(
     icarus_labels,
-    icarus_sim_mean,
+    icarus_sim_mean / interp_sim_mean,
     width,
     tick_label=bench_order,
     yerr=icarus_sim_stddev,
@@ -231,7 +239,7 @@ ax3.bar(
 
 ax3.bar(
     verilator_labels,
-    verilator_sim_mean,
+    verilator_sim_mean / interp_sim_mean,
     width,
     tick_label=bench_order,
     yerr=verilator_sim_stddev,
@@ -240,16 +248,18 @@ ax3.bar(
     color=colors[1],
 )
 
-ax3.bar(
-    interp_labels,
-    interp_sim_mean,
-    width,
-    tick_label=bench_order,
-    yerr=interp_sim_stddev,
-    label="Interpreter Simulation",
-    log=True,
-    color=colors[2],
-)
+ax3.hlines(y=1, xmin=-2, xmax=interp_labels[-1] + 1, color="gray", linestyles="dashed")
+
+# ax3.bar(
+#     interp_labels,
+#     interp_sim_mean,
+#     width,
+#     tick_label=bench_order,
+#     yerr=interp_sim_stddev,
+#     label="Interpreter Simulation",
+#     log=True,
+#     color=colors[2],
+# )
 # ax3.bar(
 #     lowered_labels,
 #     lowered_sim_mean,
