@@ -225,7 +225,7 @@ ax2.bar(
 plt.axhline(y=1, color="gray", linestyle="dashed")
 
 
-ax2.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax2.set_ylabel("End-to-end time normalized to interpreter simulation", **label_options)
 ax2.set_xlabel("Benchmark program", **label_options)
 ax2.legend(**legend_options)
 
@@ -311,7 +311,7 @@ plt.axhline(y=1, color="gray", linestyle="dashed")
 # )
 
 
-ax3.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax3.set_ylabel("Simulation time normalized to interpreter simulation", **label_options)
 ax3.set_xlabel("Benchmark program", **label_options)
 ax3.legend(**legend_options)
 plt.xticks(**axis_options)
@@ -334,7 +334,7 @@ ax4.bar(
     edgecolor=colors[2],
 )
 
-ax4.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax4.set_ylabel("Simulation time normalized to interpreter simulation", **label_options)
 ax4.set_xlabel("Benchmark program", **label_options)
 ax4.legend(**legend_options)
 
