@@ -46,14 +46,14 @@ def get_csv_filename(name, lowered):
         `evaluations/cidr-pldi-2022/individual-results/Dot_Product-Lowered.csv`
     """
     return (
-        "evaluations/cidr-pldi-2022/individual-results/"
+        "individual-results/"
         + name.replace(" ", "_")
         + ("-Lowered" if lowered else "")
         + ".csv"
     )
 
 
-def process_data(dataset, is_fully_lowered, path, script):
+def process_data(dataset, is_fully_lowered, path, script, sim_num):
     """
     Runs the script for each iteration of dataset. `is_fully_lowered` is
     just used to distinguish file names.
@@ -66,7 +66,7 @@ def process_data(dataset, is_fully_lowered, path, script):
                 # Assumes that the data is the same path with `.data` appended.
                 path + program + ".data",
                 get_csv_filename(name, is_fully_lowered),
-                "3",  # Number of simulations per program.
+                str(sim_num),  # Number of simulations per program.
             ]
         )
 
@@ -110,9 +110,7 @@ def write_csv_results(type, results):
 
     to `evaluations/cidr-pldi-2022/statistics/<type>-results.csv`.
     """
-    with open(
-        f"evaluations/cidr-pldi-2022/statistics/{type}-results.csv", "a", newline=""
-    ) as file:
+    with open(f"statistics/{type}-results.csv", "a", newline="") as file:
         writer = csv.writer(file, delimiter=",")
         writer.writerow([type, "stage", "mean", "median", "stddev"])
         for name, data in results.items():
@@ -133,21 +131,7 @@ def write_to_file(data, filename):
         file.writelines("\n".join(data))
 
 
-def run(data, script):
-    """
-    Runs the simulation and data processing on the datasets.
-    """
-    # Run a different script for fully lowered Calyx. These are separated since Fud
-    # has no way to dinstinguish profiling stage names based on previous stages.
-    is_fully_lowered = "fully-lowered" in script
-
-    # Run the bash script for each dataset.
-    process_data(
-        data,
-        is_fully_lowered,
-        path="evaluations/cidr-pldi-2022/benchmarks/",
-        script=f"evaluations/cidr-pldi-2022/scripts/{script}",
-    )
+def do_stats(data, is_fully_lowered: bool):
     # Process the CSV.
     simulations, compilations = gather_data(data, is_fully_lowered)
     # Provide meaning to the data.
@@ -159,7 +143,34 @@ def run(data, script):
         write_csv_results("simulation", simulations)
 
 
+def run(data, script, sim_num=10):
+    """
+    Runs the simulation and data processing on the datasets.
+    """
+    # Run a different script for fully lowered Calyx. These are separated since Fud
+    # has no way to dinstinguish profiling stage names based on previous stages.
+    is_fully_lowered = "fully-lowered" in script
+
+    # Run the bash script for each dataset.
+    process_data(
+        data,
+        is_fully_lowered,
+        path="benchmarks/",
+        script=f"scripts/{script}",
+        sim_num=sim_num,
+    )
+
+    do_stats(data, is_fully_lowered)
+
+
+def setup():
+    """Creates the necessary directories to store statistics."""
+    subprocess.run(["mkdir", "-p", "individual-results"])
+    subprocess.run(["mkdir", "-p", "statistics"])
+
+
 if __name__ == "__main__":
+    setup()
     verify_interpreter_configuration()
 
     # A list of datasets to evaluate simulation performance, in the form:
@@ -263,10 +274,10 @@ if __name__ == "__main__":
 
     print("Beginning benchmarks...")
     begin = time.time()
-    # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
-    run(lenet, "evaluate.sh")
-    # Run benchmarks on fully lowered Calyx through the interpreter.
-    run(lenet, "evaluate-fully-lowered.sh")
+    # # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
+    run(datasets, "evaluate.sh")
+    # # Run benchmarks on fully lowered Calyx through the interpreter.
+    run(datasets, "evaluate-fully-lowered.sh")
 
     duration = (begin - time.time()) / 60.0
     print(f"Benchmarks took approximately: {int(duration)} minutes.")
