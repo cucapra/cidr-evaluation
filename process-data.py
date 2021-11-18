@@ -275,7 +275,7 @@ if __name__ == "__main__":
     print("Beginning benchmarks...")
     begin = time.time()
     # # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
-    run(datasets, "evaluate.sh")
+    run(datasets + lenet, "evaluate.sh")
     # # Run benchmarks on fully lowered Calyx through the interpreter.
     run(datasets, "evaluate-fully-lowered.sh")
 
