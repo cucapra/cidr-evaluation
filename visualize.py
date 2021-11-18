@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 import numpy as np
 from scipy import stats
 import seaborn as sns
@@ -77,6 +78,12 @@ lowered_labels = [i + width for i in interp_labels]
 
 colors = sns.color_palette("Set2")
 edge_color = "dimgray"
+
+axis_options = {"rotation": 90, "fontsize": "large"}
+legend_options = {"fontsize": "x-large"}
+label_options = {"fontsize": "large"}
+output_options = {"bbox_inches": "tight"}
+subplot_options = {"figsize": (10, 8)}
 
 
 # fig, ax = plt.subplots()
@@ -165,7 +172,7 @@ edge_color = "dimgray"
 # ax.legend()
 
 # plt.xticks(rotation=45)
-fig2, ax2 = plt.subplots()
+fig2, ax2 = plt.subplots(**subplot_options)
 ax2.bar(
     icarus_labels,
     icarus_comp_mean / interp_sim_mean,
@@ -218,12 +225,14 @@ plt.axhline(y=1, color="gray", linestyle="dashed")
 
 ax2.set_ylabel("Time normalized to interpreter simulation")
 ax2.set_xlabel("Benchmark program")
-ax2.legend()
+ax2.legend(**legend_options)
 
 
-plt.xticks(rotation=45)
+plt.xticks(**axis_options)
+plt.savefig("f1.pdf", **output_options)
 
-fig3, ax3 = plt.subplots()
+
+fig3, ax3 = plt.subplots(**subplot_options)
 
 ax3.bar(
     icarus_labels,
@@ -298,12 +307,15 @@ plt.axhline(y=1, color="gray", linestyle="dashed")
 # )
 
 
-ax3.set_ylabel("Time normalized to interpreter simulation")
-ax3.set_xlabel("Benchmark program")
-ax3.legend()
-plt.xticks(rotation=45)
+ax3.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax3.set_xlabel("Benchmark program", **label_options)
+ax3.legend(**legend_options)
+plt.xticks(**axis_options)
 
-fig4, ax4 = plt.subplots()
+plt.savefig("f2.pdf", **output_options)
+
+
+fig4, ax4 = plt.subplots(**subplot_options)
 
 ax4.bar(
     interp_labels,
@@ -316,13 +328,13 @@ ax4.bar(
     edgecolor=colors[2],
 )
 
-ax4.set_ylabel("Time normalized to interpreter simulation")
-ax4.set_xlabel("Benchmark program")
-ax4.legend()
+ax4.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax4.set_xlabel("Benchmark program", **label_options)
+ax4.legend(**legend_options)
 
 # ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
 plt.axhline(y=1, color="gray", linestyle="dashed")
-plt.xticks(rotation=45)
+plt.xticks(**axis_options)
 
 
-plt.show()
+plt.savefig("f3.pdf", **output_options)
