@@ -67,7 +67,7 @@ lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
 lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
-width = 0.80
+width = 1.4
 bench_order = [remove_linalg(x) for x in bench_order]
 
 icarus_labels = [(x) * 4 for x in range(len(bench_order))]
@@ -249,16 +249,16 @@ ax3.bar(
     edgecolor=colors[1],
 )
 
-ax3.bar(
-    interp_labels,
-    lowered_sim_mean / interp_sim_mean,
-    width,
-    tick_label=bench_order,
-    label="Interpreter (lowered) Simulation",
-    log=True,
-    color=colors[2],
-    edgecolor=colors[2],
-)
+# ax3.bar(
+#     interp_labels,
+#     lowered_sim_mean / interp_sim_mean,
+#     width,
+#     tick_label=bench_order,
+#     label="Interpreter (lowered) Simulation",
+#     log=True,
+#     color=colors[2],
+#     edgecolor=colors[2],
+# )
 
 plt.axhline(y=1, color="gray", linestyle="dashed")
 # plt.axhline(
@@ -303,24 +303,26 @@ ax3.set_xlabel("Benchmark program")
 ax3.legend()
 plt.xticks(rotation=45)
 
-# fig4, ax4 = plt.subplots()
+fig4, ax4 = plt.subplots()
 
-# ax4.bar(
-#     interp_labels,
-#     lowered_sim_mean / interp_sim_mean,
-#     width,
-#     tick_label=bench_order,
-#     label="Interpreter (lowered) Simulation",
-#     log=True,
-# )
+ax4.bar(
+    interp_labels,
+    lowered_sim_mean / interp_sim_mean,
+    width * 2,
+    tick_label=bench_order,
+    label="Interpreter (lowered) Simulation",
+    log=True,
+    color=colors[2],
+    edgecolor=colors[2],
+)
 
-# ax4.set_ylabel("Time normalized to interpreter simulation")
-# ax4.set_xlabel("Benchmark program")
-# ax4.legend()
+ax4.set_ylabel("Time normalized to interpreter simulation")
+ax4.set_xlabel("Benchmark program")
+ax4.legend()
 
-# # ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
-# plt.axhline(y=1, color="gray", linestyle="dashed")
-# plt.xticks(rotation=45)
+# ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
+plt.axhline(y=1, color="gray", linestyle="dashed")
+plt.xticks(rotation=45)
 
 
 plt.show()
