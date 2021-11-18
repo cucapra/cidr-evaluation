@@ -80,8 +80,10 @@ colors = sns.color_palette("Set2")
 edge_color = "dimgray"
 
 axis_options = {"rotation": 90, "fontsize": "large"}
+y_axis_options = {"fontsize": "large"}
+
 legend_options = {"fontsize": "x-large"}
-label_options = {"fontsize": "large"}
+label_options = {"fontsize": "x-large"}
 output_options = {"bbox_inches": "tight"}
 subplot_options = {"figsize": (10, 8)}
 
@@ -223,12 +225,14 @@ ax2.bar(
 plt.axhline(y=1, color="gray", linestyle="dashed")
 
 
-ax2.set_ylabel("Time normalized to interpreter simulation")
-ax2.set_xlabel("Benchmark program")
+ax2.set_ylabel("Time normalized to interpreter simulation", **label_options)
+ax2.set_xlabel("Benchmark program", **label_options)
 ax2.legend(**legend_options)
 
 
 plt.xticks(**axis_options)
+plt.yticks(**y_axis_options)
+
 plt.savefig("f1.pdf", **output_options)
 
 
@@ -311,6 +315,8 @@ ax3.set_ylabel("Time normalized to interpreter simulation", **label_options)
 ax3.set_xlabel("Benchmark program", **label_options)
 ax3.legend(**legend_options)
 plt.xticks(**axis_options)
+plt.yticks(**y_axis_options)
+
 
 plt.savefig("f2.pdf", **output_options)
 
@@ -335,6 +341,7 @@ ax4.legend(**legend_options)
 # ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
 plt.axhline(y=1, color="gray", linestyle="dashed")
 plt.xticks(**axis_options)
+plt.yticks(**y_axis_options)
 
 
 plt.savefig("f3.pdf", **output_options)
