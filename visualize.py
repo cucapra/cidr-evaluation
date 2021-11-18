@@ -261,21 +261,21 @@ ax3.bar(
 )
 
 plt.axhline(y=1, color="gray", linestyle="dashed")
-plt.axhline(
-    y=stats.gmean(verilator_sim_mean / interp_sim_mean),
-    color=colors[1],
-    linestyle="dashed",
-)
-plt.axhline(
-    y=stats.gmean(icarus_sim_mean / interp_sim_mean),
-    color=colors[0],
-    linestyle="dashed",
-)
-plt.axhline(
-    y=stats.gmean(lowered_sim_mean / interp_sim_mean),
-    color=colors[2],
-    linestyle="dashed",
-)
+# plt.axhline(
+#     y=stats.gmean(verilator_sim_mean / interp_sim_mean),
+#     color=colors[1],
+#     linestyle="dashed",
+# )
+# plt.axhline(
+#     y=stats.gmean(icarus_sim_mean / interp_sim_mean),
+#     color=colors[0],
+#     linestyle="dashed",
+# )
+# plt.axhline(
+#     y=stats.gmean(lowered_sim_mean / interp_sim_mean),
+#     color=colors[2],
+#     linestyle="dashed",
+# )
 
 # ax3.bar(
 #     interp_labels,
