@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy import stats
 import seaborn as sns
 from collections import defaultdict
 import csv
@@ -261,17 +262,17 @@ ax3.bar(
 
 plt.axhline(y=1, color="gray", linestyle="dashed")
 plt.axhline(
-    y=np.average(verilator_sim_mean / interp_sim_mean),
+    y=stats.gmean(verilator_sim_mean / interp_sim_mean),
     color=colors[1],
     linestyle="dashed",
 )
 plt.axhline(
-    y=np.average(icarus_sim_mean / interp_sim_mean),
+    y=stats.gmean(icarus_sim_mean / interp_sim_mean),
     color=colors[0],
     linestyle="dashed",
 )
 plt.axhline(
-    y=np.average(lowered_sim_mean / interp_sim_mean),
+    y=stats.gmean(lowered_sim_mean / interp_sim_mean),
     color=colors[2],
     linestyle="dashed",
 )
