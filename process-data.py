@@ -275,9 +275,11 @@ if __name__ == "__main__":
     print("Beginning benchmarks...")
     begin = time.time()
     # # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
-    run(datasets + lenet, "evaluate.sh")
+    run(datasets, "evaluate.sh")
     # # Run benchmarks on fully lowered Calyx through the interpreter.
     run(datasets, "evaluate-fully-lowered.sh")
+
+    run(lenet, "evaluate.sh", sim_num=5)
 
     duration = (begin - time.time()) / 60.0
     print(f"Benchmarks took approximately: {int(duration)} minutes.")
