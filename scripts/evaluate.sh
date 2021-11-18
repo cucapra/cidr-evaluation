@@ -46,7 +46,7 @@ echo "[RUNNING] verilog compilation and simulation: $PROGRAM"
 # Gather Verilog simulation times.
 for (( i = 0; i < $INTERVALS; ++i ))
 do
-    fud e $PROGRAM --to dat -s verilog.data $DATA \
+    fud e $PROGRAM --to vcd -s verilog.data $DATA -s verilog.vcd-target "/dev/null" \
     -pr verilog.simulate verilog.compile_with_verilator -csv -q \
     >> $FILE
 done
