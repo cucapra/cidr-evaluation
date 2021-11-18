@@ -66,7 +66,7 @@ def process_data(dataset, is_fully_lowered, path, script):
                 # Assumes that the data is the same path with `.data` appended.
                 path + program + ".data",
                 get_csv_filename(name, is_fully_lowered),
-                "10",  # Number of simulations per program.
+                "3",  # Number of simulations per program.
             ]
         )
 
@@ -133,12 +133,6 @@ def write_to_file(data, filename):
         file.writelines("\n".join(data))
 
 
-def setup():
-    """Creates the necessary directories to store statistics."""
-    subprocess.run(["mkdir", "-p", "evaluations/cidr-pldi-2022/individual-results"])
-    subprocess.run(["mkdir", "-p", "evaluations/cidr-pldi-2022/statistics"])
-
-
 def run(data, script):
     """
     Runs the simulation and data processing on the datasets.
@@ -166,7 +160,6 @@ def run(data, script):
 
 
 if __name__ == "__main__":
-    setup()
     verify_interpreter_configuration()
 
     # A list of datasets to evaluate simulation performance, in the form:
@@ -261,12 +254,19 @@ if __name__ == "__main__":
         ),
     ]
 
+    lenet = [
+        (
+            "LeNet",
+            "lenet.futil",
+        )
+    ]
+
     print("Beginning benchmarks...")
     begin = time.time()
     # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
-    run(datasets, "evaluate.sh")
+    run(lenet, "evaluate.sh")
     # Run benchmarks on fully lowered Calyx through the interpreter.
-    run(datasets, "evaluate-fully-lowered.sh")
+    run(lenet, "evaluate-fully-lowered.sh")
 
-    duration = (time.time() - begin) / 60.0
-    print(f"Benchmarks took approximately: {int(duration)} minute(s).")
+    duration = (begin - time.time()) / 60.0
+    print(f"Benchmarks took approximately: {int(duration)} minutes.")
