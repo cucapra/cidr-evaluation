@@ -1,0 +1,41 @@
+ver = "0.3.2"
+
+[[tests]]
+name = "interpreter"
+paths = [
+    "benchmarks/polybench/*.fuse",
+    "benchmarks/*.futil"
+]
+cmd = """
+    fud e --to interpreter-out {} -s verilog.data {}.data -q | jq .memories.main
+"""
+
+[[tests]]
+name = "interpreter lowered"
+paths = [
+    "benchmarks/polybench/*.fuse",
+    "benchmarks/*.futil"
+]
+cmd = """
+    fud e --to interpreter-out {} -s verilog.data {}.data -s futil.flags "-x tdcc:no-early-transitions -p all" -q  | jq .memories.main
+"""
+
+[[tests]]
+name = "icarus"
+paths = [
+    "benchmarks/polybench/*.fuse",
+    "benchmarks/*.futil"
+]
+cmd = """
+    fud e --to dat {} -s verilog.data {}.data -s futil.flags "-x tdcc:no-early-transitions" --through icarus-verilog -q | jq .memories
+"""
+
+[[tests]]
+name = "verilator"
+paths = [
+    "benchmarks/polybench/*.fuse",
+    "benchmarks/*.futil"
+]
+cmd = """
+    fud e --to dat {} -s verilog.data {}.data -s futil.flags "-x tdcc:no-early-transitions" --through verilog -q | jq .memories
+"""
