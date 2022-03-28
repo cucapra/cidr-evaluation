@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euf -o pipefail
+
 # Gathers simulation times for Calyx interprer, Verilog, and Icarus-Verilog.
 # Example:
 #   PROGRAM="examples/futil/dot-product.futil"
@@ -14,11 +16,11 @@ INTERVALS=$4
 echo "[RUNNING] interpreter simulation (fully-lowered): $PROGRAM"
 
 # Gather Calyx interpreter simulation times.
-for (( i = 0; i < $INTERVALS; ++i ))
+for (( i = 0; i < "$INTERVALS"; ++i ))
 do
-    fud e $PROGRAM --to interpreter-out -s futil.flags "-p all -x tdcc:no-early-transitions" -s verilog.data $DATA \
+    fud e "$PROGRAM" --to interpreter-out -s futil.flags "-p all -x tdcc:no-early-transitions" -s verilog.data "$DATA" \
     -pr interpreter.interpret -csv -q \
-    >> $FILE
+    >> "$FILE"
 done
 
 echo "[COMPLETE] interpreter simulation (fully-lowered): $PROGRAM"
