@@ -82,10 +82,10 @@ edge_color = "dimgray"
 axis_options = {"rotation": 90, "fontsize": "large"}
 y_axis_options = {"fontsize": "large"}
 
-legend_options = {"fontsize": "x-large"}
+legend_options = {"fontsize": "large"}
 label_options = {"fontsize": "x-large"}
 output_options = {"bbox_inches": "tight"}
-subplot_options = {"figsize": (10, 8)}
+subplot_options = {"figsize": (8, 5)}
 
 
 # fig, ax = plt.subplots()
@@ -225,7 +225,7 @@ ax2.bar(
 plt.axhline(y=1, color="gray", linestyle="dashed")
 
 
-ax2.set_ylabel("End-to-end time normalized to interpreter simulation", **label_options)
+ax2.set_ylabel("Normalized End-to-end time", **label_options)
 ax2.set_xlabel("Benchmark program", **label_options)
 ax2.legend(**legend_options)
 
@@ -311,7 +311,7 @@ plt.axhline(y=1, color="gray", linestyle="dashed")
 # )
 
 
-ax3.set_ylabel("Simulation time normalized to interpreter simulation", **label_options)
+ax3.set_ylabel("Normalized Simulation Time", **label_options)
 ax3.set_xlabel("Benchmark program", **label_options)
 ax3.legend(**legend_options)
 plt.xticks(**axis_options)
@@ -334,7 +334,7 @@ ax4.bar(
     edgecolor=colors[2],
 )
 
-ax4.set_ylabel("Simulation time normalized to interpreter simulation", **label_options)
+ax4.set_ylabel("Normalized Simulation Time", **label_options)
 ax4.set_xlabel("Benchmark program", **label_options)
 ax4.legend(**legend_options)
 
@@ -345,3 +345,18 @@ plt.yticks(**y_axis_options)
 
 
 plt.savefig("f3.pdf", **output_options)
+
+
+print("icarus slowdown", stats.gmean(icarus_sim_mean / interp_sim_mean))
+print("verilator slowdown", stats.gmean(verilator_sim_mean / interp_sim_mean))
+print("interp slowdown", stats.gmean(interp_sim_mean / verilator_sim_mean))
+print("lowered slowdown", stats.gmean(lowered_sim_mean / interp_sim_mean))
+
+
+print("verilator comp slowdown", stats.gmean(verilator_comp_mean / interp_sim_mean))
+
+print("icarus max slowdown", max(icarus_sim_mean / interp_sim_mean))
+print("lowered max slowdown", max(lowered_sim_mean / interp_sim_mean))
+
+
+# print(stats.gmean(verilator_comp_mean / interp_sim_mean))
