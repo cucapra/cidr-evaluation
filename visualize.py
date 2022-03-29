@@ -347,10 +347,20 @@ plt.yticks(**y_axis_options)
 plt.savefig("f3.pdf", **output_options)
 
 
+ntt_idx = bench_order.index("NTT 64")
+
 print("icarus slowdown", stats.gmean(icarus_sim_mean / interp_sim_mean))
 print("verilator slowdown", stats.gmean(verilator_sim_mean / interp_sim_mean))
 print("interp slowdown", stats.gmean(interp_sim_mean / verilator_sim_mean))
 print("lowered slowdown", stats.gmean(lowered_sim_mean / interp_sim_mean))
+
+
+print("icarus NTT slowdown", icarus_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx])
+print("lowered NTT slowdown", lowered_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx])
+print(
+    "interp NTT slowdown (relative to verilator)",
+    interp_sim_mean[ntt_idx] / verilator_sim_mean[ntt_idx],
+)
 
 
 print("verilator comp slowdown", stats.gmean(verilator_comp_mean / interp_sim_mean))
