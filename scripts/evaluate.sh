@@ -21,13 +21,13 @@ do
     >> $FILE
 done
 
-# Gather Calyx debuigger simulation times.
-for (( i = 0; i < $INTERVALS; ++i ))
-do
-    fud e $PROGRAM --to debugger -s verilog.data $DATA -s interpreter.debugger.flags "-p "\
-    -pr interpreter.interpret -csv -q \
-    >> $FILE
-done
+# # Gather Calyx debuigger simulation times.
+# for (( i = 0; i < $INTERVALS; ++i ))
+# do
+#     fud e $PROGRAM --to debugger -s verilog.data $DATA -s interpreter.debugger.flags "-p "\
+#     -pr interpreter.interpret -csv -q \
+#     >> $FILE
+# done
 
 echo "[COMPLETE] interpreter simulation: $PROGRAM"
 echo "[RUNNING] iverilog compilation and simulation: $PROGRAM"
