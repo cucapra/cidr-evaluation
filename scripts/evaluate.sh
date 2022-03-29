@@ -13,23 +13,23 @@ INTERVALS=$4
 
 echo "[RUNNING] interpreter simulation: $PROGRAM"
 
-# # Gather Calyx interpreter simulation times.
-# for (( i = 0; i < $INTERVALS; ++i ))
-# do
-#     fud e $PROGRAM --to interpreter-out -s verilog.data $DATA \
-#     -pr interpreter.interpret -csv -q \
-#     >> $FILE
-# done
+# Gather Calyx interpreter simulation times.
+for (( i = 0; i < $INTERVALS; ++i ))
+do
+    fud e $PROGRAM --to interpreter-out -s verilog.data $DATA \
+    -pr interpreter.interpret -csv -q \
+    >> $FILE
+done
 
-# Gather Calyx debuigger simulation times.
-# for (( i = 0; i < $INTERVALS; ++i ))
-# do
-#     fud e $PROGRAM --to debugger -s verilog.data $DATA -s interpreter.debugger.flags "-p "\
-#     -pr interpreter.interpret -csv -q \
-#     >> $FILE
-# done
+Gather Calyx debuigger simulation times.
+for (( i = 0; i < $INTERVALS; ++i ))
+do
+    fud e $PROGRAM --to debugger -s verilog.data $DATA -s interpreter.debugger.flags "-p "\
+    -pr interpreter.interpret -csv -q \
+    >> $FILE
+done
 
-# echo "[COMPLETE] interpreter simulation: $PROGRAM"
+echo "[COMPLETE] interpreter simulation: $PROGRAM"
 echo "[RUNNING] iverilog compilation and simulation: $PROGRAM"
 
 # Gather Icarus-Verilog simulation times.
@@ -41,14 +41,14 @@ do
 done
 
 echo "[COMPLETE] iverilog compilation and simulation: $PROGRAM"
-# echo "[RUNNING] verilog compilation and simulation: $PROGRAM"
+echo "[RUNNING] verilog compilation and simulation: $PROGRAM"
 
-# Gather Verilog simulation times.
-# for (( i = 0; i < $INTERVALS; ++i ))
-# do
-#     fud e $PROGRAM --to vcd -s verilog.data $DATA -s verilog.vcd-target "/dev/null" -s futil.flags "-x tdcc:no-early-transitions" \
-#     -pr verilog.simulate verilog.compile_with_verilator -csv -q \
-#     >> $FILE
-# done
+Gather Verilog simulation times.
+for (( i = 0; i < $INTERVALS; ++i ))
+do
+    fud e $PROGRAM --to vcd -s verilog.data $DATA -s verilog.vcd-target "/dev/null" -s futil.flags "-x tdcc:no-early-transitions" \
+    -pr verilog.simulate verilog.compile_with_verilator -csv -q \
+    >> $FILE
+done
 
-# echo "[COMPLETE] verilog compilation and simulation: $PROGRAM"
+echo "[COMPLETE] verilog compilation and simulation: $PROGRAM"
