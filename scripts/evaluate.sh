@@ -21,7 +21,7 @@ do
     >> $FILE
 done
 
-Gather Calyx debuigger simulation times.
+# Gather Calyx debuigger simulation times.
 for (( i = 0; i < $INTERVALS; ++i ))
 do
     fud e $PROGRAM --to debugger -s verilog.data $DATA -s interpreter.debugger.flags "-p "\
