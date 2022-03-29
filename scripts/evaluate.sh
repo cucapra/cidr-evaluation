@@ -43,7 +43,7 @@ done
 echo "[COMPLETE] iverilog compilation and simulation: $PROGRAM"
 echo "[RUNNING] verilog compilation and simulation: $PROGRAM"
 
-Gather Verilog simulation times.
+# Gather Verilog simulation times.
 for (( i = 0; i < $INTERVALS; ++i ))
 do
     fud e $PROGRAM --to vcd -s verilog.data $DATA -s verilog.vcd-target "/dev/null" -s futil.flags "-x tdcc:no-early-transitions" \
