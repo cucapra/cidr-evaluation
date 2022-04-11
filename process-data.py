@@ -89,8 +89,9 @@ def gather_data(dataset, is_fully_lowered):
             comptimes = defaultdict(list)
             for row in csv.reader(file, delimiter=","):
                 # e.g. icarus-verilog,simulate,0.126
-                assert len(row) == 3, "expected CSV row: <stage-name>,<step>,<time>"
-                stage, step, time = row
+                assert len(row) == 2, "expected CSV row: <stage-name>.<step>,<time>"
+                stage_step, time = row
+                stage, step = stage_step.split(".")
                 time = float(time)
                 if "compile" not in step:
                     # This is a simulation step.
@@ -263,10 +264,10 @@ if __name__ == "__main__":
             "Linear Algebra TRMM",
             "polybench/linear-algebra-trmm.fuse",
         ),
-        (
-            "Linear Algebra Cholesky",
-            "polybench/linear-algebra-cholesky.fuse",
-        ),
+        # (
+        #     "Linear Algebra Cholesky",
+        #     "polybench/linear-algebra-cholesky.fuse",
+        # ),
         (
             "Linear Algebra Gramschmidt",
             "polybench/linear-algebra-gramschmidt.fuse",
@@ -289,5 +290,5 @@ if __name__ == "__main__":
 
     run(lenet, "evaluate.sh", sim_num=5)
 
-    duration = (begin - time.time()) / 60.0
+    duration = (time.time() - begin) / 60.0
     print(f"Benchmarks took approximately: {int(duration)} minutes.")
