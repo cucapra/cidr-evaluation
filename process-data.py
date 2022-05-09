@@ -264,10 +264,10 @@ if __name__ == "__main__":
             "Linear Algebra TRMM",
             "polybench/linear-algebra-trmm.fuse",
         ),
-        # (
-        #     "Linear Algebra Cholesky",
-        #     "polybench/linear-algebra-cholesky.fuse",
-        # ),
+        (
+            "Linear Algebra Cholesky",
+            "polybench/linear-algebra-cholesky.fuse",
+        ),
         (
             "Linear Algebra Gramschmidt",
             "polybench/linear-algebra-gramschmidt.fuse",
