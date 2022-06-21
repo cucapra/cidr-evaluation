@@ -1,24 +1,24 @@
 simulation-fully-lowered,stage,mean,median,stddev
-NTT 32,interpreter,1.613,1.611,0.016
-NTT 64,interpreter,13.491,13.474,0.133
-TCAM 32,interpreter,8.131,8.139,0.098
-TCAM 64,interpreter,16.33,16.321,0.183
-Linear Algebra 2MM,interpreter,6.746,6.749,0.042
-Linear Algebra 3MM,interpreter,4.403,4.401,0.011
-Linear Algebra ATAX,interpreter,0.667,0.666,0.003
-Linear Algebra BICG,interpreter,0.193,0.193,0.003
-Linear Algebra DOITGEN,interpreter,6.813,6.812,0.058
-Linear Algebra DURBIN,interpreter,0.274,0.273,0.003
-Linear Algebra GEMM,interpreter,2.552,2.549,0.014
-Linear Algebra GEMVER,interpreter,3.208,3.199,0.038
-Linear Algebra GESUMMV,interpreter,1.3,1.298,0.017
-Linear Algebra LU,interpreter,0.437,0.438,0.002
-Linear Algebra LUDCMP,interpreter,1.125,1.123,0.009
-Linear Algebra MVT,interpreter,0.657,0.657,0.003
-Linear Algebra SYMM,interpreter,2.466,2.466,0.01
-Linear Algebra SYR2K,interpreter,5.187,5.168,0.057
-Linear Algebra SYRK,interpreter,2.43,2.421,0.025
-Linear Algebra TRISOLV,interpreter,0.062,0.062,0.001
-Linear Algebra TRMM,interpreter,0.699,0.699,0.007
-Linear Algebra Cholesky,interpreter,0.305,0.304,0.005
-Linear Algebra Gramschmidt,interpreter,7.687,7.679,0.043
+NTT 32,interpreter,1.208,1.218,0.024
+NTT 64,interpreter,8.95,8.96,0.157
+TCAM 32,interpreter,8.119,8.102,0.114
+TCAM 64,interpreter,16.424,16.554,0.302
+Linear Algebra 2MM,interpreter,5.655,5.65,0.031
+Linear Algebra 3MM,interpreter,4.399,4.38,0.055
+Linear Algebra ATAX,interpreter,0.632,0.629,0.007
+Linear Algebra BICG,interpreter,0.18,0.179,0.004
+Linear Algebra DOITGEN,interpreter,6.724,6.72,0.018
+Linear Algebra DURBIN,interpreter,0.272,0.271,0.003
+Linear Algebra GEMM,interpreter,2.358,2.354,0.015
+Linear Algebra GEMVER,interpreter,2.545,2.539,0.022
+Linear Algebra GESUMMV,interpreter,1.129,1.13,0.005
+Linear Algebra LU,interpreter,0.467,0.464,0.008
+Linear Algebra LUDCMP,interpreter,1.166,1.161,0.009
+Linear Algebra MVT,interpreter,0.606,0.605,0.003
+Linear Algebra SYMM,interpreter,2.176,2.173,0.012
+Linear Algebra SYR2K,interpreter,4.654,4.647,0.031
+Linear Algebra SYRK,interpreter,2.394,2.388,0.023
+Linear Algebra TRISOLV,interpreter,0.064,0.064,0.001
+Linear Algebra TRMM,interpreter,0.731,0.727,0.01
+Linear Algebra Cholesky,interpreter,0.325,0.323,0.008
+Linear Algebra Gramschmidt,interpreter,7.417,7.351,0.173
