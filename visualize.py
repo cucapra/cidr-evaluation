@@ -373,7 +373,10 @@ print("lowered max slowdown", max(lowered_sim_mean / interp_sim_mean))
 # print(stats.gmean(verilator_comp_mean / interp_sim_mean))
 print("\n===LeNet Stats===")
 print(
-    f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {icarus['LeNet'][1][0]}\n stderr: {icarus['LeNet'][1][1]}\n",
+    f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {icarus['LeNet'][1][0]}\n stderr: {icarus['LeNet'][1][1]}",
+)
+print(
+    f"Icarus Slowdown: {float(icarus['LeNet'][1][0]) / float(verilator['LeNet'][1][0])}\n"
 )
 
 print(
@@ -381,5 +384,8 @@ print(
 )
 
 print(
-    f"interp Sim: {interp['LeNet'][0]}\n stderr: {interp['LeNet'][1]}\n",
+    f"interp Sim: {interp['LeNet'][0]}\n stderr: {interp['LeNet'][1]}",
+)
+print(
+    f"interp Slowdown: {float(interp['LeNet'][0]) / float(verilator['LeNet'][1][0])}\n"
 )
