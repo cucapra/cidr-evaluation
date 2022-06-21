@@ -43,9 +43,7 @@ def remove_linalg(name):
         return name
 
 
-bench_order = [
-    x for x in icarus.keys() if x not in ("LeNet", "Linear Algebra Cholesky")
-]
+bench_order = [x for x in icarus.keys() if x not in ("LeNet")]
 
 
 icarus_comp_mean = np.array([float(icarus[bench][0][0]) for bench in bench_order])
