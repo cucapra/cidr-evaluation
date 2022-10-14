@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from matplotlib.transforms import Bbox
 import numpy as np
 from scipy import stats
 import seaborn as sns
@@ -17,25 +16,35 @@ with open("statistics/compilation-results.csv") as file:
     # compilation,stage,mean,median,stddev
     for entry in csv.DictReader(file):
         if entry["stage"] == "icarus-verilog":
-            icarus[entry["compilation"]].append((entry["mean"], entry["stddev"]))
+            icarus[entry["compilation"]].append(
+                (entry["mean"], entry["stddev"])
+            )
         elif entry["stage"] == "verilog":
-            verilator[entry["compilation"]].append((entry["mean"], entry["stddev"]))
+            verilator[entry["compilation"]].append(
+                (entry["mean"], entry["stddev"])
+            )
 
 with open("statistics/simulation-results.csv") as file:
     for entry in csv.DictReader(file):
         if entry["stage"] == "interpreter":
             interp[entry["simulation"]] = (entry["mean"], entry["stddev"])
         elif entry["stage"] == "icarus-verilog":
-            icarus[entry["simulation"]].append((entry["mean"], entry["stddev"]))
+            icarus[entry["simulation"]].append(
+                (entry["mean"], entry["stddev"])
+            )
         elif entry["stage"] == "verilog":
-            verilator[entry["simulation"]].append((entry["mean"], entry["stddev"]))
+            verilator[entry["simulation"]].append(
+                (entry["mean"], entry["stddev"])
+            )
 
 with open("statistics/simulation-fully-lowered-results.csv") as file:
     for entry in csv.DictReader(file):
-        lowered[entry["simulation-fully-lowered"]] = (entry["mean"], entry["stddev"])
+        lowered[entry["simulation-fully-lowered"]] = (
+            entry["mean"],
+            entry["stddev"],
+        )
 
 
-# I have half a functioning brain cell right now, I'm not figuring out how to do this properly
 def remove_linalg(name):
     if "Linear Algebra" in name:
         return name[len("Linear Algebra") + 1 :]
@@ -46,27 +55,45 @@ def remove_linalg(name):
 bench_order = [x for x in icarus.keys() if x not in ("LeNet")]
 
 
-icarus_comp_mean = np.array([float(icarus[bench][0][0]) for bench in bench_order])
-icarus_comp_stddev = np.array([float(icarus[bench][0][1]) for bench in bench_order])
+icarus_comp_mean = np.array(
+    [float(icarus[bench][0][0]) for bench in bench_order]
+)
+icarus_comp_stddev = np.array(
+    [float(icarus[bench][0][1]) for bench in bench_order]
+)
 
-verilator_comp_mean = np.array([float(verilator[bench][0][0]) for bench in bench_order])
+verilator_comp_mean = np.array(
+    [float(verilator[bench][0][0]) for bench in bench_order]
+)
 verilator_comp_stddev = np.array(
     [float(verilator[bench][0][1]) for bench in bench_order]
 )
 
-icarus_sim_mean = np.array([float(icarus[bench][1][0]) for bench in bench_order])
-icarus_sim_stddev = np.array([float(icarus[bench][1][1]) for bench in bench_order])
+icarus_sim_mean = np.array(
+    [float(icarus[bench][1][0]) for bench in bench_order]
+)
+icarus_sim_stddev = np.array(
+    [float(icarus[bench][1][1]) for bench in bench_order]
+)
 
-verilator_sim_mean = np.array([float(verilator[bench][1][0]) for bench in bench_order])
+verilator_sim_mean = np.array(
+    [float(verilator[bench][1][0]) for bench in bench_order]
+)
 verilator_sim_stddev = np.array(
     [float(verilator[bench][1][1]) for bench in bench_order]
 )
 
 interp_sim_mean = np.array([float(interp[bench][0]) for bench in bench_order])
-interp_sim_stddev = np.array([float(interp[bench][1]) for bench in bench_order])
+interp_sim_stddev = np.array(
+    [float(interp[bench][1]) for bench in bench_order]
+)
 
-lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
-lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
+lowered_sim_mean = np.array(
+    [float(lowered[bench][0]) for bench in bench_order]
+)
+lowered_sim_stddev = np.array(
+    [float(lowered[bench][1]) for bench in bench_order]
+)
 
 
 width = 1.4
@@ -88,93 +115,6 @@ label_options = {"fontsize": "x-large"}
 output_options = {"bbox_inches": "tight"}
 subplot_options = {"figsize": (8, 5)}
 
-
-# fig, ax = plt.subplots()
-# ax.bar(
-#     icarus_labels,
-#     icarus_comp_mean,
-#     width,
-#     yerr=icarus_comp_stddev,
-#     bottom=icarus_sim_mean,
-#     tick_label=bench_order,
-#     label="Icarus Compilation",
-#     log=True,
-#     fill=False,
-#     linestyle="-",
-#     edgecolor=colors[0],
-# )
-# ax.bar(
-#     verilator_labels,
-#     verilator_comp_mean,
-#     width,
-#     yerr=verilator_comp_stddev,
-#     tick_label=bench_order,
-#     bottom=verilator_sim_mean,
-#     label="Verilator Compilation",
-#     linestyle="-",
-#     fill=False,
-#     log=True,
-#     edgecolor=colors[1],
-# )
-# ax.bar(
-#     interp_labels,
-#     interp_sim_mean,
-#     width,
-#     yerr=interp_sim_stddev,
-#     tick_label=bench_order,
-#     label="Interpreter Simulation",
-#     log=True,
-#     hatch="\\",
-#     # edgecolor=edge_color,
-#     color=colors[2],
-# )
-# ax.bar(
-#     lowered_labels,
-#     lowered_sim_mean,
-#     width,
-#     yerr=lowered_sim_stddev,
-#     tick_label=bench_order,
-#     label="Interpreter (lowered) Simulation",
-#     log=True,
-# )
-
-
-# ax.bar(
-#     icarus_labels,
-#     icarus_sim_mean,
-#     width,
-#     yerr=icarus_sim_stddev,
-#     # bottom=icarus_comp_mean,
-#     tick_label=bench_order,
-#     label="Icarus Simulation",
-#     log=True,
-#     # hatch="\\",
-#     fill=True,
-#     # edgecolor=edge_color,
-#     color=colors[0],
-# )
-
-# ax.bar(
-#     verilator_labels,
-#     verilator_sim_mean,
-#     width,
-#     yerr=verilator_sim_stddev,
-#     # bottom=verilator_comp_mean,
-#     tick_label=bench_order,
-#     label="Verilator Simulation",
-#     log=True,
-#     fill=True,
-#     # hatch="\\",
-#     # edgecolor=edge_color,
-#     color=colors[1],
-# )
-
-
-# ax.set_ylabel("Time in second")
-# ax.set_xlabel("Benchmark program")
-# ax.legend()
-
-# plt.xticks(rotation=45)
 fig2, ax2 = plt.subplots(**subplot_options)
 ax2.bar(
     icarus_labels,
@@ -263,53 +203,8 @@ ax3.bar(
     edgecolor=colors[1],
 )
 
-# ax3.bar(
-#     interp_labels,
-#     lowered_sim_mean / interp_sim_mean,
-#     width,
-#     tick_label=bench_order,
-#     label="Interpreter (lowered) Simulation",
-#     log=True,
-#     color=colors[2],
-#     edgecolor=colors[2],
-# )
 
 plt.axhline(y=1, color="gray", linestyle="dashed")
-# plt.axhline(
-#     y=stats.gmean(verilator_sim_mean / interp_sim_mean),
-#     color=colors[1],
-#     linestyle="dashed",
-# )
-# plt.axhline(
-#     y=stats.gmean(icarus_sim_mean / interp_sim_mean),
-#     color=colors[0],
-#     linestyle="dashed",
-# )
-# plt.axhline(
-#     y=stats.gmean(lowered_sim_mean / interp_sim_mean),
-#     color=colors[2],
-#     linestyle="dashed",
-# )
-
-# ax3.bar(
-#     interp_labels,
-#     interp_sim_mean,
-#     width,
-#     tick_label=bench_order,
-#     yerr=interp_sim_stddev,
-#     label="Interpreter Simulation",
-#     log=True,
-#     color=colors[2],
-# )
-# ax3.bar(
-#     lowered_labels,
-#     lowered_sim_mean,
-#     width,
-#     tick_label=bench_order,
-#     yerr=lowered_sim_stddev,
-#     label="Interpreter (lowered) Simulation",
-#     log=True,
-# )
 
 
 ax3.set_ylabel("Normalized Simulation Time", **label_options)
@@ -339,7 +234,7 @@ ax4.set_ylabel("Normalized Simulation Time", **label_options)
 ax4.set_xlabel("Benchmark program", **label_options)
 ax4.legend(**legend_options)
 
-# ax4.hlines(y=1, xmin=0, xmax=lowered_labels[-1] + 1, color="gray", linestyles="dashed")
+
 plt.axhline(y=1, color="gray", linestyle="dashed")
 plt.xticks(**axis_options)
 plt.yticks(**y_axis_options)
@@ -356,15 +251,23 @@ print("interp slowdown", stats.gmean(interp_sim_mean / verilator_sim_mean))
 print("lowered slowdown", stats.gmean(lowered_sim_mean / interp_sim_mean))
 
 
-print("icarus NTT slowdown", icarus_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx])
-print("lowered NTT slowdown", lowered_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx])
+print(
+    "icarus NTT slowdown", icarus_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx]
+)
+print(
+    "lowered NTT slowdown",
+    lowered_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx],
+)
 print(
     "interp NTT slowdown (relative to verilator)",
     interp_sim_mean[ntt_idx] / verilator_sim_mean[ntt_idx],
 )
 
 
-print("verilator comp slowdown", stats.gmean(verilator_comp_mean / interp_sim_mean))
+print(
+    "verilator comp slowdown",
+    stats.gmean(verilator_comp_mean / interp_sim_mean),
+)
 
 print("icarus max slowdown", max(icarus_sim_mean / interp_sim_mean))
 print("lowered max slowdown", max(lowered_sim_mean / interp_sim_mean))
@@ -373,18 +276,22 @@ print("lowered max slowdown", max(lowered_sim_mean / interp_sim_mean))
 # print(stats.gmean(verilator_comp_mean / interp_sim_mean))
 print("\n===LeNet Stats===")
 print(
-    f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {icarus['LeNet'][1][0]}\n stderr: {icarus['LeNet'][1][1]}",
+    f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {float(icarus['LeNet'][1][0])/60}\n stderr: {float(icarus['LeNet'][1][1])/60}",
 )
 print(
     f"Icarus Slowdown: {float(icarus['LeNet'][1][0]) / float(verilator['LeNet'][1][0])}\n"
 )
 
 print(
-    f"verilator Comp: {verilator['LeNet'][0][0]} \n stderr: {verilator['LeNet'][0][1]}\nverilator Sim: {verilator['LeNet'][1][0]}\n stderr: {verilator['LeNet'][1][1]}\n",
+    f"Icarus Slowdown (interp): {float(icarus['LeNet'][1][0]) / float(interp['LeNet'][0])}\n"
 )
 
 print(
-    f"interp Sim: {interp['LeNet'][0]}\n stderr: {interp['LeNet'][1]}",
+    f"verilator Comp: {verilator['LeNet'][0][0]} \n stderr: {verilator['LeNet'][0][1]}\nverilator Sim: {float(verilator['LeNet'][1][0])/60}\n stderr: {float(verilator['LeNet'][1][1])/60}\n",
+)
+
+print(
+    f"interp Sim: {float(interp['LeNet'][0])/60}\n stderr: {float(interp['LeNet'][1])/60}",
 )
 print(
     f"interp Slowdown: {float(interp['LeNet'][0]) / float(verilator['LeNet'][1][0])}\n"
