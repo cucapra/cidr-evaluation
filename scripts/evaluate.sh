@@ -46,7 +46,7 @@ echo "[RUNNING] verilog compilation and simulation: $PROGRAM"
 # Gather Verilog simulation times.
 for (( i = 0; i < $INTERVALS; ++i ))
 do
-    fud e $PROGRAM --to dat -s verilog.data $DATA -s futil.flags "-x tdcc:no-early-transitions" \
+    fud e $PROGRAM --to dat --through verilog -s verilog.data $DATA -s futil.flags "-x tdcc:no-early-transitions" \
     -pr verilog.simulate verilog.compile_with_verilator -csv -q \
     >> $FILE
 done

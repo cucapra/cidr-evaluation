@@ -1,15 +1,12 @@
 # Use the official image as a parent image.
 FROM rust:latest
 
-# Connect to the Calux repository.
-LABEL org.opencontainers.image.source https://github.com/cucapra/calyx
-
 # Install apt dependencies
 RUN echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
     echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list && \
     curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add && \
     apt-get update -y && \
-    apt-get install -y jq python3.9 python3-pip sbt make autoconf g++ flex bison libfl2 libfl-dev default-jdk ninja-build build-essential cmake gperf
+    apt-get install -y jq python3.9 python3-pip sbt make autoconf g++ flex bison libfl2 libfl-dev default-jdk ninja-build build-essential cmake gperf libgoogle-perftools-dev numactl perl-doc perl
 
 # Install python dependencies
 RUN python3 -m pip install numpy flit prettytable wheel hypothesis pytest simplejson cocotb
@@ -17,7 +14,7 @@ RUN python3 -m pip install numpy flit prettytable wheel hypothesis pytest simple
 # Install Verilator
 WORKDIR /home
 ## TODO(rachit): Don't hardcode the version here
-RUN git clone --depth 1 --branch v4.224 https://github.com/verilator/verilator
+RUN git clone --depth 1 --branch v4.228 https://github.com/verilator/verilator
 WORKDIR /home/verilator
 RUN autoconf && ./configure && make && make install
 
@@ -38,7 +35,7 @@ RUN git checkout v0.10.dev0 && \
 RUN mkdir build
 WORKDIR /home/tvm/build
 RUN cp ../cmake/config.cmake . && \
-    cmake -G Ninja .. && ninja && \
+    cmake -G Ninja .. && ninja -j 8 && \
     python3 -m pip install -Iv antlr4-python3-runtime==4.7.2
 WORKDIR /home/tvm/python
 RUN python3 setup.py bdist_wheel && python3 -m pip install --user dist/tvm-*.whl
@@ -60,6 +57,7 @@ RUN cargo install runt --version $(grep ^ver calyx/runt.toml | awk '{print $3}' 
 
 # Build the compiler.
 WORKDIR /home/calyx
+RUN git checkout cider-eval
 RUN cargo build --all --release
 
 # Install fud
@@ -82,7 +80,9 @@ RUN fud config global.futil_directory /home/calyx && \
 WORKDIR /home/calyx/calyx-py
 RUN FLIT_ROOT_INSTALL=1 flit install --symlink
 
-
+# Copy Eval stuff
 RUN mkdir /home/cider-eval/
 WORKDIR /home/cider-eval
 COPY . .
+RUN fud config stages.interpreter.flags " --no-verify "
+RUN python3 -m pip install matplotlib scipy seaborn

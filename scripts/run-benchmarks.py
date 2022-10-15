@@ -89,7 +89,9 @@ def gather_data(dataset, is_fully_lowered):
             comptimes = defaultdict(list)
             for row in csv.reader(file, delimiter=","):
                 # e.g. icarus-verilog,simulate,0.126
-                assert len(row) == 2, "expected CSV row: <stage-name>.<step>,<time>"
+                assert (
+                    len(row) == 2
+                ), "expected CSV row: <stage-name>.<step>,<time>"
                 stage_step, time = row
                 stage, step = stage_step.split(".")
                 time = float(time)
@@ -171,6 +173,8 @@ def setup():
 
 
 if __name__ == "__main__":
+    import sys
+
     setup()
     verify_interpreter_configuration()
 
@@ -281,14 +285,29 @@ if __name__ == "__main__":
         )
     ]
 
+    assert (
+        len(sys.argv) == 2
+    ), "Please provide exactly one benchmark set. Options are ('core', 'lenet')"
+
+    if sys.argv[1].lower() == "core":
+
+        def program():
+            print("Running the core benchmark suite...")
+            # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
+            run(datasets, "evaluate.sh")
+            # # Run benchmarks on fully lowered Calyx through the interpreter.
+            run(datasets, "evaluate-fully-lowered.sh")
+
+    elif sys.argv[1].lower() == "lenet":
+
+        def program():
+            print("Running lenet")
+            run(lenet, "evaluate.sh", sim_num=5)
+
     print("Beginning benchmarks...")
     begin = time.time()
-    # # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
-    run(datasets, "evaluate.sh")
-    # # Run benchmarks on fully lowered Calyx through the interpreter.
-    run(datasets, "evaluate-fully-lowered.sh")
 
-    run(lenet, "evaluate.sh", sim_num=5)
+    program()
 
     duration = (time.time() - begin) / 60.0
     print(f"Benchmarks took approximately: {int(duration)} minutes.")

@@ -4,6 +4,14 @@ from scipy import stats
 import seaborn as sns
 from collections import defaultdict
 import csv
+import sys
+import pathlib
+
+assert (
+    len(sys.argv) == 2
+), "Please provide the path to the statistics directory"
+
+statistics_path = pathlib.Path(sys.argv[1])
 
 sns.set_theme()
 
@@ -12,7 +20,7 @@ verilator = defaultdict(list)
 interp = {}
 lowered = {}
 
-with open("statistics/compilation-results.csv") as file:
+with open(statistics_path / "compilation-results.csv") as file:
     # compilation,stage,mean,median,stddev
     for entry in csv.DictReader(file):
         if entry["stage"] == "icarus-verilog":
@@ -24,7 +32,7 @@ with open("statistics/compilation-results.csv") as file:
                 (entry["mean"], entry["stddev"])
             )
 
-with open("statistics/simulation-results.csv") as file:
+with open(statistics_path / "simulation-results.csv") as file:
     for entry in csv.DictReader(file):
         if entry["stage"] == "interpreter":
             interp[entry["simulation"]] = (entry["mean"], entry["stddev"])
@@ -37,7 +45,7 @@ with open("statistics/simulation-results.csv") as file:
                 (entry["mean"], entry["stddev"])
             )
 
-with open("statistics/simulation-fully-lowered-results.csv") as file:
+with open(statistics_path / "simulation-fully-lowered-results.csv") as file:
     for entry in csv.DictReader(file):
         lowered[entry["simulation-fully-lowered"]] = (
             entry["mean"],
@@ -245,9 +253,14 @@ plt.savefig("f3.pdf", **output_options)
 
 ntt_idx = bench_order.index("NTT 64")
 
+print("====Relative stats for core benchmarks====")
+
 print("icarus slowdown", stats.gmean(icarus_sim_mean / interp_sim_mean))
 print("verilator slowdown", stats.gmean(verilator_sim_mean / interp_sim_mean))
-print("interp slowdown", stats.gmean(interp_sim_mean / verilator_sim_mean))
+print(
+    "interp slowdown (relative to verilator)",
+    stats.gmean(interp_sim_mean / verilator_sim_mean),
+)
 print("lowered slowdown", stats.gmean(lowered_sim_mean / interp_sim_mean))
 
 
