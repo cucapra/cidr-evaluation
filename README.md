@@ -3,7 +3,9 @@
 This repository contains the evaluation materials for our ASPLOS 2023 paper
 entitled "Stepwise Debugging for Hardware Accelerators".
 
-This evaluation consists of one artifact, the Cider Interpreter and Interactive Debugger
+This evaluation consists of one code artifact, the Cider Interpreter and
+Interactive Debugger, and the tools required to reproduce the graphs appearing
+in the paper alongside the out original
 
 2529.5s
 
