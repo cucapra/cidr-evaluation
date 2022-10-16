@@ -14,7 +14,7 @@ RUN python3 -m pip install numpy flit prettytable wheel hypothesis pytest simple
 # Install Verilator
 WORKDIR /home
 ## TODO(rachit): Don't hardcode the version here
-RUN git clone --depth 1 --branch v4.228 https://github.com/verilator/verilator
+RUN git clone --depth 1 --branch v4.220 https://github.com/verilator/verilator
 WORKDIR /home/verilator
 RUN autoconf && ./configure && make && make install
 

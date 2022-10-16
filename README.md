@@ -10,9 +10,9 @@ in the paper.
 **Goals**
 1. To reproduce our benchmark graphs
 
-## Setup
+# Setup
 
-### Artifact Sources
+## Artifact Sources
 
 This artifact is available in two formats: A docker container and through code
 repositories hosted on github.
@@ -22,7 +22,7 @@ For both approaches, first clone this repository.
 git clone https://github.com/cucapra/cidr-evaluation
 ```
 
-### Docker (est. 50 min)
+## Docker (est. 50 min)
 
 This requires [Docker][docker]. If running via Docker Desktop, you
 will need to increase the amount of memory the containers are allowed to use via
@@ -48,21 +48,63 @@ docker run -it cider-eval:latest
 Afterwards, you will have a terminal open in the container and can proceed to
 use the artifact.
 
-### Local Machine (est. 30-50+ min)
+## Local Machine (est. 30-50+ min)
 
+Running the code locally requires installing several tools:
+- The Rust programming language
+- Icarus Verilog
+- Verilator
+- Fud & the Calyx infrastructure
+  - runt
+- Dahlia
+- (optional) TVM
 
+The rest of this section will walk you through the process.
+
+### Install [Rust][rust]
+```bash
+# On Mac and Linux
+curl https://sh.rustup.rs -sSf | sh
+```
+
+### Install Rust-based tools
+```bash
+cargo install runt
+
+# optional, only needed if you want to use fud's vcd-json target
+cargo install vcdump
+```
+
+### Install [Verilator][verilator]
+```bash
+# On Mac:
+brew install verilator
+
+# On Linux
+# first see https://verilator.org/guide/latest/install.html
+git clone --branch v4.220 https://github.com/verilator/verilator
+cd verilator && autoconf &&
+./configure && make && sudo make install
+```
+
+### Install [Icarus-Verilog][icarus]
+```bash
+# On Mac:
+brew install icarus-verilog
+
+# On linux
+git clone --branch v11_0 https://github.com/steveicarus/iverilog
+sh autoconf.sh && ./configure && make && make install
+```
 ## Steps
 
 These are the steps listed for running the benchmarks. With each step, a link is provided with
 extra information in case something goes wrong during installation. To verify `fud` stages are
 installed correctly, you may also call `fud check`.
 
-0. Install [Rust](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+0. Install
 
-```bash
-# On Mac and Linux
-curl https://sh.rustup.rs -sSf | sh
-```
+
 
 1. Install [Calyx](https://capra.cs.cornell.edu/docs/calyx/intro.html#compiler-installation)
 
@@ -138,4 +180,13 @@ This should result in 3 files in `evaluations/cidr-pldi-2022/statistics` (as wel
 - `simulation-results.csv`: Simulation statistics for interpreter, Verilog, and Icarus-Verilog.
 - `compilation-results.csv` Compilation statistics for Verilog and Icarus-Verilog.
 
+
+
+
+
+
+
 [docker]: https://www.docker.com/
+[rust]: https://doc.rust-lang.org/cargo/getting-started/installation.html
+[verilator]: https://verilator.org/guide/latest/install.html
+[icarus]: http://iverilog.icarus.com/
