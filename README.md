@@ -5,9 +5,51 @@ entitled "Stepwise Debugging for Hardware Accelerators".
 
 This evaluation consists of one code artifact, the Cider Interpreter and
 Interactive Debugger, and the tools required to reproduce the graphs appearing
-in the paper alongside the out original
+in the paper.
 
-2529.5s
+**Goals**
+1. To reproduce our benchmark graphs
+
+## Setup
+
+### Artifact Sources
+
+This artifact is available in two formats: A docker container and through code
+repositories hosted on github.
+
+For both approaches, first clone this repository.
+```
+git clone https://github.com/cucapra/cidr-evaluation
+```
+
+### Docker (est. 50 min)
+
+This requires [Docker][docker]. If running via Docker Desktop, you
+will need to increase the amount of memory the containers are allowed to use via
+the settings. Around 14 GB of RAM should be sufficient, less than this may cause
+certain benchmarks to be killed before completing.
+
+***Note***: running benchmarks via Docker _will_ have an impact on performance.
+In particular, it can cause Verilator compilation to take notably longer than
+running locally on the machine and may influence the graphs produced later.
+
+If running on a on a system with bash:
+```
+bash scripts/setup.sh
+```
+this will build the docker image and start the container.
+
+If running without bash, the commands can instead be invoked directly:
+```
+docker build . -t cider-eval:latest &&
+docker run -it cider-eval:latest
+```
+
+Afterwards, you will have a terminal open in the container and can proceed to
+use the artifact.
+
+### Local Machine (est. 30-50+ min)
+
 
 ## Steps
 
@@ -95,3 +137,5 @@ This should result in 3 files in `evaluations/cidr-pldi-2022/statistics` (as wel
 - `simulation-fully-lowered-results.csv`: Simulation statistics for the interpreter after fully lowering the Calyx program. 
 - `simulation-results.csv`: Simulation statistics for interpreter, Verilog, and Icarus-Verilog.
 - `compilation-results.csv` Compilation statistics for Verilog and Icarus-Verilog.
+
+[docker]: https://www.docker.com/
