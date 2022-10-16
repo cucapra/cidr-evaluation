@@ -250,9 +250,6 @@ plt.yticks(**y_axis_options)
 
 plt.savefig("f3.pdf", **output_options)
 
-
-ntt_idx = bench_order.index("NTT 64")
-
 print("====Relative stats for core benchmarks====")
 
 print("icarus slowdown", stats.gmean(icarus_sim_mean / interp_sim_mean))
@@ -263,20 +260,6 @@ print(
 )
 print("lowered slowdown", stats.gmean(lowered_sim_mean / interp_sim_mean))
 
-
-print(
-    "icarus NTT slowdown", icarus_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx]
-)
-print(
-    "lowered NTT slowdown",
-    lowered_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx],
-)
-print(
-    "interp NTT slowdown (relative to verilator)",
-    interp_sim_mean[ntt_idx] / verilator_sim_mean[ntt_idx],
-)
-
-
 print(
     "verilator comp slowdown",
     stats.gmean(verilator_comp_mean / interp_sim_mean),
@@ -286,26 +269,45 @@ print("icarus max slowdown", max(icarus_sim_mean / interp_sim_mean))
 print("lowered max slowdown", max(lowered_sim_mean / interp_sim_mean))
 
 
-# print(stats.gmean(verilator_comp_mean / interp_sim_mean))
-print("\n===LeNet Stats===")
-print(
-    f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {float(icarus['LeNet'][1][0])/60}\n stderr: {float(icarus['LeNet'][1][1])/60}",
-)
-print(
-    f"Icarus Slowdown: {float(icarus['LeNet'][1][0]) / float(verilator['LeNet'][1][0])}\n"
-)
+if "NTT 64" in bench_order:
+    ntt_idx = bench_order.index("NTT 64")
+    print("\n===NTT 64 stats===")
 
-print(
-    f"Icarus Slowdown (interp): {float(icarus['LeNet'][1][0]) / float(interp['LeNet'][0])}\n"
-)
+    print(
+        "icarus NTT slowdown",
+        icarus_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx],
+    )
+    print(
+        "lowered NTT slowdown",
+        lowered_sim_mean[ntt_idx] / interp_sim_mean[ntt_idx],
+    )
+    print(
+        "interp NTT slowdown (relative to verilator)",
+        interp_sim_mean[ntt_idx] / verilator_sim_mean[ntt_idx],
+    )
 
-print(
-    f"verilator Comp: {verilator['LeNet'][0][0]} \n stderr: {verilator['LeNet'][0][1]}\nverilator Sim: {float(verilator['LeNet'][1][0])/60}\n stderr: {float(verilator['LeNet'][1][1])/60}\n",
-)
 
-print(
-    f"interp Sim: {float(interp['LeNet'][0])/60}\n stderr: {float(interp['LeNet'][1])/60}",
-)
-print(
-    f"interp Slowdown: {float(interp['LeNet'][0]) / float(verilator['LeNet'][1][0])}\n"
-)
+if "LeNet" in interp:
+
+    print("\n===LeNet Stats===")
+    print(
+        f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {float(icarus['LeNet'][1][0])/60}\n stderr: {float(icarus['LeNet'][1][1])/60}",
+    )
+    print(
+        f"Icarus Slowdown: {float(icarus['LeNet'][1][0]) / float(verilator['LeNet'][1][0])}\n"
+    )
+
+    print(
+        f"Icarus Slowdown (interp): {float(icarus['LeNet'][1][0]) / float(interp['LeNet'][0])}\n"
+    )
+
+    print(
+        f"verilator Comp: {verilator['LeNet'][0][0]} \n stderr: {verilator['LeNet'][0][1]}\nverilator Sim: {float(verilator['LeNet'][1][0])/60}\n stderr: {float(verilator['LeNet'][1][1])/60}\n",
+    )
+
+    print(
+        f"interp Sim: {float(interp['LeNet'][0])/60}\n stderr: {float(interp['LeNet'][1])/60}",
+    )
+    print(
+        f"interp Slowdown: {float(interp['LeNet'][0]) / float(verilator['LeNet'][1][0])}\n"
+    )

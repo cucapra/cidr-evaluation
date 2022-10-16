@@ -6,7 +6,7 @@ RUN echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/ap
     echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list && \
     curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add && \
     apt-get update -y && \
-    apt-get install -y jq python3.9 python3-pip sbt make autoconf g++ flex bison libfl2 libfl-dev default-jdk ninja-build build-essential cmake gperf libgoogle-perftools-dev numactl perl-doc perl
+    apt-get install -y jq python3.9 python3-pip sbt make autoconf g++ flex bison libfl2 libfl-dev default-jdk ninja-build build-essential cmake gperf libgoogle-perftools-dev numactl perl-doc perl ccache
 
 # Install python dependencies
 RUN python3 -m pip install numpy flit prettytable wheel hypothesis pytest simplejson cocotb
@@ -74,15 +74,16 @@ RUN fud config global.futil_directory /home/calyx && \
     fud config stages.interpreter.exec '/home/calyx/target/release/interp' && \
     fud register ntt -p '/home/calyx/frontends/ntt-pipeline/fud/ntt.py' && \
     fud register mrxl -p '/home/calyx/frontends/mrxl/fud/mrxl.py' && \
-    fud register icarus-verilog -p '/home/calyx/fud/icarus/icarus.py'
+    fud register icarus-verilog -p '/home/calyx/fud/icarus/icarus.py' && \
+    fud config stages.interpreter.flags " --no-verify "
 
 # Install calyx-py
 WORKDIR /home/calyx/calyx-py
 RUN FLIT_ROOT_INSTALL=1 flit install --symlink
 
 # Copy Eval stuff
+RUN python3 -m pip install matplotlib scipy seaborn
+
 RUN mkdir /home/cider-eval/
 WORKDIR /home/cider-eval
 COPY . .
-RUN fud config stages.interpreter.flags " --no-verify "
-RUN python3 -m pip install matplotlib scipy seaborn

@@ -27,3 +27,4 @@ paths = ["benchmarks/polybench/*.fuse", "benchmarks/*.futil"]
 cmd = """
     fud e --to dat {} -s verilog.data {}.data -s futil.flags "-x tdcc:no-early-transitions" --through verilog -q | jq .memories
 """
+timeout = 4200

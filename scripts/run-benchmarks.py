@@ -287,7 +287,7 @@ if __name__ == "__main__":
 
     assert (
         len(sys.argv) == 2
-    ), "Please provide exactly one benchmark set. Options are ('core', 'lenet')"
+    ), "Please provide exactly one benchmark set. Options are ('core', 'lenet', 'core-no-ntt64', 'full')"
 
     if sys.argv[1].lower() == "core":
 
@@ -298,11 +298,44 @@ if __name__ == "__main__":
             # # Run benchmarks on fully lowered Calyx through the interpreter.
             run(datasets, "evaluate-fully-lowered.sh")
 
+    elif sys.argv[1].lower() == "core-no-ntt64":
+        datasets.remove(
+            (
+                "NTT 64",
+                "ntt-64.futil",
+            )
+        )
+
+        def program():
+            print("Running the core benchmark suite without ntt-64...")
+            # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
+            run(datasets, "evaluate.sh")
+            # # Run benchmarks on fully lowered Calyx through the interpreter.
+            run(datasets, "evaluate-fully-lowered.sh")
+
     elif sys.argv[1].lower() == "lenet":
 
         def program():
             print("Running lenet")
             run(lenet, "evaluate.sh", sim_num=5)
+
+    elif sys.argv[1].lower() == "full":
+
+        def program():
+            print("Running the full benchmark suite...")
+            # Run normal benchmarks on interpreter, Verilog, Icarus-Verilog.
+            run(datasets, "evaluate.sh")
+            # Run benchmarks on fully lowered Calyx through the interpreter.
+            run(datasets, "evaluate-fully-lowered.sh")
+
+            run(lenet, "evaluate.sh", sim_num=5)
+
+    else:
+
+        def program():
+            print(
+                "Not given a valid benchmark set, options are: ('core', 'lenet', 'core-no-ntt64', 'full')"
+            )
 
     print("Beginning benchmarks...")
     begin = time.time()
