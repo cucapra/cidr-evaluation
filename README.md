@@ -283,10 +283,19 @@ Icarus, and Verilator. As well as running the Core benchmarks suite (everything
 but LeNet) through Cider after being fully lowered.
 
 This process will take some time to complete. In particular, NTT-64 can take a
-while for Verilator to compile and LeNet will take a long time to execute for Cider and Icarus.
+while for Verilator to compile and LeNet will take a long time to execute for
+Cider and Icarus.
 
-When finished, you should see that all 95 tests have passed. If you want a print
-out of the tests as they complete you can run
+For a quick smoke test, you can run
+```bash
+# in cider-eval
+runt -x "lenet|ntt"
+```
+this will run the polybench and TCAM tests but skip the longer running NTT tests
+and LeNet. This should complete in a few minutes.
+
+When finished with the *full* test suite, you should see that all 95 tests have
+passed. If you want a print out of the tests as they complete you can run
 ```bash
 # in cider-eval
 runt -v
