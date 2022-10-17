@@ -225,8 +225,100 @@ Congrats! You should now be ready to run the artifact locally.
   - Debug the sample program with Cider (sec 4)
 
 
+## Graph Generation (5 min)
 
+This repo includes the folder `paper_data` which contains the data we collected
+and used to generate the graphs in the paper. The data is separated into
+`individual-results`, which contains a file for each benchmark detailing each trial
+performed, and `statistics` which has the statistical analysis for each
+benchmark.
 
+When ready, you can generate the graphs from the paper by running (from the repo
+root):
+```bash
+python3 scripts/visualize.py paper_data/statistics
+```
+
+This will generate 3 pdf files called `f3`, `f2`, and `f1` corresponding to
+figure 6a, 6b, and 6c, respectively. It will also print out a summary of various
+statistics to the standard output. In particular, you should see the stats for
+the LeNet trial (used in Table 2):
+```
+===LeNet Stats===
+Icarus Comp: 0.308 s
+ stderr: 0.003 s
+Icarus Sim: 215.03990000000002 min
+ stderr: 1.8939833333333334 min
+Icarus Slowdown: 27.877538762034813
+
+Icarus Slowdown (interp): 8.254980380464792
+
+verilator Comp: 16.506 s
+ stderr: 5.873 s
+verilator Sim: 7.713733333333334 min
+ stderr: 0.00835 min
+
+interp Sim: 26.049716666666665 min
+ stderr: 0.061233333333333334 min
+interp Slowdown: 3.377056937410333
+```
+
+## Benchmark Correctness (est 5+ hours)
+
+Next we can verify that the tools all produce the correct (and identical)
+results for each of our benchmarks. We use the snapshot testing tool
+[Runt][runt] to compare the output of each tool to a single "golden" result for
+each benchmark. This means that all tools are producing the same exact results
+after running through jq formatting.
+
+From the root of this repo you can run the following command to evaluate all the
+benchmarks.
+```bash
+runt
+```
+This will run 95 different tests, running each of the benchmarks through Cider,
+Icarus, and Verilator. As well as running the Core benchmarks suite (everything
+but LeNet) through Cider after being fully lowered.
+
+This process will take some time to complete. In particular, NTT-64 can take a
+while for Verilator to compile and LeNet will take a long time to execute for Cider and Icarus.
+
+When finished, you should see that all 95 tests have passed. If you want a print
+out of the tests as they complete you can run
+```bash
+runt -v
+```
+which will also display names in addition to incrementing the completion count.
+
+The benchmarks are contained in the `benchmarks` folder and the expected output
+for each benchmark is `NAME.expect`.
+
+If the tests fail with a timeout, adjust the timeout value in `runt.toml` for
+the appropriate test suite.
+
+## Data Collection (est ~24 hours)
+
+To collect timing data locally run:
+```bash
+python3 scripts/run-benchmarks.py full
+```
+
+This will run the entire benchmark suite including LeNet. Each benchmark (except
+LeNet) is run ten times for each tool (Cider, Icarus, Verilator) and an addition
+ten times through Cider with the program fully lowered (Cider-Lowered). LeNet is
+run five times for each tool and is not run fully lowered.
+
+This will produce an `individual-results` and `statistics` folder in the root of
+the repo. Note that the timing data is unlikely to be identical because of
+differences in machines and resources but that the general relationship between
+the tools timing behaviors should hold. Once data is collected you can run
+```bash
+python3 scripts/visualize.py statistics
+```
+to generate the graphs and statistics from your collected data. Compare these
+graphs to figures 6a-c in the paper, they should be similar. The LeNet
+statistics are likely to differ but the slowdown numbers between the different
+tools should be similar to those we collected.
 
 [docker]: https://www.docker.com/
 [rust]: https://doc.rust-lang.org/cargo/getting-started/installation.html
@@ -234,3 +326,4 @@ Congrats! You should now be ready to run the artifact locally.
 [icarus]: http://iverilog.icarus.com/
 [tvm]: https://tvm.apache.org/docs/install/from_source.html
 [dahlia]: https://capra.cs.cornell.edu/fuse/docs/installation/
+[runt]: https://github.com/rachitnigam/runt
