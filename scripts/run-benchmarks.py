@@ -3,6 +3,7 @@ import subprocess
 import time
 import statistics as st
 from collections import defaultdict
+import pathlib
 
 # Paths assumes you're running this script from the `futil` directory, i.e.
 #   python3 evaluations/cidr-pldi-2022/process-data.py
@@ -89,9 +90,7 @@ def gather_data(dataset, is_fully_lowered):
             comptimes = defaultdict(list)
             for row in csv.reader(file, delimiter=","):
                 # e.g. icarus-verilog,simulate,0.126
-                assert (
-                    len(row) == 2
-                ), "expected CSV row: <stage-name>.<step>,<time>"
+                assert len(row) == 2, "expected CSV row: <stage-name>.<step>,<time>"
                 stage_step, time = row
                 stage, step = stage_step.split(".")
                 time = float(time)
@@ -113,9 +112,13 @@ def write_csv_results(type, results):
 
     to `evaluations/cidr-pldi-2022/statistics/<type>-results.csv`.
     """
-    with open(f"statistics/{type}-results.csv", "a", newline="") as file:
+    path = pathlib.Path(f"statistics/{type}-results.csv")
+    preexisting = path.is_file()
+
+    with open(path, "a", newline="") as file:
         writer = csv.writer(file, delimiter=",")
-        writer.writerow([type, "stage", "mean", "median", "stddev"])
+        if not preexisting:
+            writer.writerow([type, "stage", "mean", "median", "stddev"])
         for name, data in results.items():
             for stage, times in data.items():
                 mean = round(st.mean(times), 3)
