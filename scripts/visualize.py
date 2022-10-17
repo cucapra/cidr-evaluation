@@ -7,9 +7,7 @@ import csv
 import sys
 import pathlib
 
-assert (
-    len(sys.argv) == 2
-), "Please provide the path to the statistics directory"
+assert len(sys.argv) == 2, "Please provide the path to the statistics directory"
 
 statistics_path = pathlib.Path(sys.argv[1])
 
@@ -24,26 +22,18 @@ with open(statistics_path / "compilation-results.csv") as file:
     # compilation,stage,mean,median,stddev
     for entry in csv.DictReader(file):
         if entry["stage"] == "icarus-verilog":
-            icarus[entry["compilation"]].append(
-                (entry["mean"], entry["stddev"])
-            )
+            icarus[entry["compilation"]].append((entry["mean"], entry["stddev"]))
         elif entry["stage"] == "verilog":
-            verilator[entry["compilation"]].append(
-                (entry["mean"], entry["stddev"])
-            )
+            verilator[entry["compilation"]].append((entry["mean"], entry["stddev"]))
 
 with open(statistics_path / "simulation-results.csv") as file:
     for entry in csv.DictReader(file):
         if entry["stage"] == "interpreter":
             interp[entry["simulation"]] = (entry["mean"], entry["stddev"])
         elif entry["stage"] == "icarus-verilog":
-            icarus[entry["simulation"]].append(
-                (entry["mean"], entry["stddev"])
-            )
+            icarus[entry["simulation"]].append((entry["mean"], entry["stddev"]))
         elif entry["stage"] == "verilog":
-            verilator[entry["simulation"]].append(
-                (entry["mean"], entry["stddev"])
-            )
+            verilator[entry["simulation"]].append((entry["mean"], entry["stddev"]))
 
 with open(statistics_path / "simulation-fully-lowered-results.csv") as file:
     for entry in csv.DictReader(file):
@@ -63,45 +53,27 @@ def remove_linalg(name):
 bench_order = [x for x in icarus.keys() if x not in ("LeNet")]
 
 
-icarus_comp_mean = np.array(
-    [float(icarus[bench][0][0]) for bench in bench_order]
-)
-icarus_comp_stddev = np.array(
-    [float(icarus[bench][0][1]) for bench in bench_order]
-)
+icarus_comp_mean = np.array([float(icarus[bench][0][0]) for bench in bench_order])
+icarus_comp_stddev = np.array([float(icarus[bench][0][1]) for bench in bench_order])
 
-verilator_comp_mean = np.array(
-    [float(verilator[bench][0][0]) for bench in bench_order]
-)
+verilator_comp_mean = np.array([float(verilator[bench][0][0]) for bench in bench_order])
 verilator_comp_stddev = np.array(
     [float(verilator[bench][0][1]) for bench in bench_order]
 )
 
-icarus_sim_mean = np.array(
-    [float(icarus[bench][1][0]) for bench in bench_order]
-)
-icarus_sim_stddev = np.array(
-    [float(icarus[bench][1][1]) for bench in bench_order]
-)
+icarus_sim_mean = np.array([float(icarus[bench][1][0]) for bench in bench_order])
+icarus_sim_stddev = np.array([float(icarus[bench][1][1]) for bench in bench_order])
 
-verilator_sim_mean = np.array(
-    [float(verilator[bench][1][0]) for bench in bench_order]
-)
+verilator_sim_mean = np.array([float(verilator[bench][1][0]) for bench in bench_order])
 verilator_sim_stddev = np.array(
     [float(verilator[bench][1][1]) for bench in bench_order]
 )
 
 interp_sim_mean = np.array([float(interp[bench][0]) for bench in bench_order])
-interp_sim_stddev = np.array(
-    [float(interp[bench][1]) for bench in bench_order]
-)
+interp_sim_stddev = np.array([float(interp[bench][1]) for bench in bench_order])
 
-lowered_sim_mean = np.array(
-    [float(lowered[bench][0]) for bench in bench_order]
-)
-lowered_sim_stddev = np.array(
-    [float(lowered[bench][1]) for bench in bench_order]
-)
+lowered_sim_mean = np.array([float(lowered[bench][0]) for bench in bench_order])
+lowered_sim_stddev = np.array([float(lowered[bench][1]) for bench in bench_order])
 
 
 width = 1.4
@@ -291,7 +263,7 @@ if "LeNet" in interp:
 
     print("\n===LeNet Stats===")
     print(
-        f"Icarus Comp: {icarus['LeNet'][0][0]} \n stderr: {icarus['LeNet'][0][1]}\nIcarus Sim: {float(icarus['LeNet'][1][0])/60}\n stderr: {float(icarus['LeNet'][1][1])/60}",
+        f"Icarus Comp: {icarus['LeNet'][0][0]} s \n stderr: {icarus['LeNet'][0][1]} s\nIcarus Sim: {float(icarus['LeNet'][1][0])/60} min\n stderr: {float(icarus['LeNet'][1][1])/60} min",
     )
     print(
         f"Icarus Slowdown: {float(icarus['LeNet'][1][0]) / float(verilator['LeNet'][1][0])}\n"
@@ -302,11 +274,11 @@ if "LeNet" in interp:
     )
 
     print(
-        f"verilator Comp: {verilator['LeNet'][0][0]} \n stderr: {verilator['LeNet'][0][1]}\nverilator Sim: {float(verilator['LeNet'][1][0])/60}\n stderr: {float(verilator['LeNet'][1][1])/60}\n",
+        f"verilator Comp: {verilator['LeNet'][0][0]} s \n stderr: {verilator['LeNet'][0][1]} s\nverilator Sim: {float(verilator['LeNet'][1][0])/60} min\n stderr: {float(verilator['LeNet'][1][1])/60} min\n",
     )
 
     print(
-        f"interp Sim: {float(interp['LeNet'][0])/60}\n stderr: {float(interp['LeNet'][1])/60}",
+        f"interp Sim: {float(interp['LeNet'][0])/60} min\n stderr: {float(interp['LeNet'][1])/60} min",
     )
     print(
         f"interp Slowdown: {float(interp['LeNet'][0]) / float(verilator['LeNet'][1][0])}\n"
