@@ -47,7 +47,7 @@ docker run -it cider-eval:latest
 ```
 
 Afterwards, you will have a terminal open in the container and can proceed to
-use the artifact.
+[use the artifact](#step-by-step-guide).
 
 ## Local Machine (est. 30-50+ min)
 
@@ -236,6 +236,7 @@ benchmark.
 When ready, you can generate the graphs from the paper by running (from the repo
 root):
 ```bash
+# in cider-eval
 python3 scripts/visualize.py paper_data/statistics
 ```
 
@@ -274,6 +275,7 @@ after running through jq formatting.
 From the root of this repo you can run the following command to evaluate all the
 benchmarks.
 ```bash
+# in cider-eval
 runt
 ```
 This will run 95 different tests, running each of the benchmarks through Cider,
@@ -286,6 +288,7 @@ while for Verilator to compile and LeNet will take a long time to execute for Ci
 When finished, you should see that all 95 tests have passed. If you want a print
 out of the tests as they complete you can run
 ```bash
+# in cider-eval
 runt -v
 ```
 which will also display names in addition to incrementing the completion count.
@@ -300,6 +303,7 @@ the appropriate test suite.
 
 To collect timing data locally run:
 ```bash
+# in cider-eval
 python3 scripts/run-benchmarks.py full
 ```
 
@@ -313,6 +317,7 @@ the repo. Note that the timing data is unlikely to be identical because of
 differences in machines and resources but that the general relationship between
 the tools timing behaviors should hold. Once data is collected you can run
 ```bash
+# in cider-eval
 python3 scripts/visualize.py statistics
 ```
 to generate the graphs and statistics from your collected data. Compare these
