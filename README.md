@@ -334,6 +334,160 @@ graphs to figures 6a-c in the paper, they should be similar. The LeNet
 statistics are likely to differ but the slowdown numbers between the different
 tools should be similar to those we collected.
 
+## *(optional)* Interactive Debugging with Cider (~10 minutes)
+
+This section is meant to let you use Cider's interactive debugging mode instead
+of the interpreter mode. For this, we've setup a few files from the example
+calyx program in section 2.2. These files are the same program, but with a
+hardcoded input value `x`, so that the example component can stand alone. This
+follows the debugging process shown in section 3. It will be useful to keep this
+portion of the paper handy while working through this section.
+
+To start, run the following command from the root directory:
+```bash
+# in cider-eval
+fud e --to debugger examples/first.futil
+```
+
+This will open the interactive debugger. You can type `help` and enter to see
+the help message.
+```
+ > help
+```
+
+This will list the different commands the debugger supports. You can see
+specific examples of command usage via
+```
+ > explain
+```
+
+When you're ready, run
+```
+ > continue
+```
+
+You will see the same warning printing out repeatedly:
+```
+WARN Computation over/underflow, source: counter.add
+```
+Press `CTRL-C` to kill
+
+Reopen the debugger with:
+```bash
+# in cider-eval
+fud e --to debugger examples/first.futil
+```
+
+You can set a watchpoint as shown in the paper via:
+```
+ > watch after incr_idx with print idx_r.out
+```
+
+When you're ready, run
+```
+ > continue
+```
+and press `CTRL-C` to kill the process after a few seconds. You should see
+something like this
+```
+    idx_r.out = [00]
+    idx_r.out = [01]
+    idx_r.out = [10]
+WARN Computation over/underflow, source: counter.add
+    idx_r.out = [11]
+WARN Computation over/underflow, source: counter.add
+    idx_r.out = [00]
+```
+This is showing the register value which is overflowing and causing the
+infinite loop. Note that because of how warnings are printed, they may not
+intersperse exactly as shown.
+
+You can now correct the bug as shown in section 3, if you wish to edit the
+example file, or you may instead move to `examples/second.futil`. When you're
+ready, run
+```bash
+# in cider-eval
+fud e --to debugger examples/second.futil
+```
+
+Then run the continue command
+```
+ > c
+```
+
+The debugger should exit with the following message:
+```
+Error: invalid memory access to memory counter.dest_m. Given index (1) but memory has dimension (1)
+```
+
+This is showing the incorrect memory access happening in the `upd` group. You
+can correct the file as discussed in section 3 or move to
+`examples/third.futil`.
+
+```bash
+# in cider-eval
+fud e --to debugger examples/third.futil
+```
+Run the continue command again, you should see the following:
+```
+ > c
+Main component has finished executing. Debugger is now in inspection mode.
+```
+
+Run the following to inspect the output.
+```
+ > print-state dest_m
+    dest_m = [[00000000000000100000000000000000]]
+ > print-state \u.16 dest_m
+    dest_m = [2]
+```
+
+This shows the use of the `print-state` command and formatting codes. These are
+discussed in more detail in section 3 of the paper.
+
+Exit the debugger with
+```
+> exit
+```
+and re-open the file
+```bash
+# in cider-eval
+fud e --to debugger examples/third.futil
+```
+
+Run the following commands:
+```
+> break incr_st
+> continue
+Breaking: counter::incr_st
+> print \u.16 acc_r.out
+  acc_r.out = 0
+> step-over incr_st
+> print \u.16 acc_r.out
+  acc_r.out = 1/2
+```
+
+This demonstrates the incorrect value of the `step` constant!.
+
+You can now make the final set of corrections or move to file `examples/fourth.futil`
+
+```bash
+# in cider-eval
+fud e --to debugger examples/fourth.futil
+```
+
+Finally we can rerun the program and inspect the results.
+```
+ > c
+Main component has finished executing. Debugger is now in inspection mode.
+ > print-state \u.16 dest_m
+    dest_m = [4]
+ >
+```
+
+The example program is now correct! This concludes the debugging section, feel
+free to play around or close the program at your leisure.
+
 [docker]: https://www.docker.com/
 [rust]: https://doc.rust-lang.org/cargo/getting-started/installation.html
 [verilator]: https://verilator.org/guide/latest/install.html

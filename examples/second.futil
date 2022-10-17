@@ -1,0 +1,43 @@
+import "primitives/math.futil";
+import "primitives/core.futil";
+
+ component counter<"toplevel"=1> (@go go: 1) -> (@done done: 1) {
+ cells {
+   dest_m = std_mem_d1(32, 1, 1);
+   step = std_const(32, 32768);
+   acc_r = std_reg(32); idx_r = std_reg(3);
+   fpa = std_fp_add(32, 16, 16);
+   add = std_add(3);
+   le = std_le(3);
+   x = std_const(32, 0);
+ }
+ wires {
+  group init {
+    idx_r.write_en = 1'd1; idx_r.in = 3'd0;
+    acc_r.write_en = 1'd1; acc_r.in = 32'd0;
+    init[done] = idx_r.done;
+   }
+  group incr_idx {
+    add.left = idx_r.out; add.right = 3'd1;
+    idx_r.in = add.out; idx_r.write_en = 1'd1;
+    incr_idx[done] = idx_r.done;
+  }
+  group incr_st {
+    fpa.left = acc_r.out; fpa.right = step.out;
+    acc_r.in = fpa.out; acc_r.write_en = 1'd1;
+    incr_st[done] = acc_r.done;
+  }
+  group upd {
+    dest_m.write_en = 1'd1; dest_m.addr0 = 1'd1;
+    dest_m.write_data = acc_r.out; upd[done] = dest_m.done;
+  }
+  // Loop condition
+  comb group cond {le.left = idx_r.out; le.right = 3'd3;}
+ }
+ control {
+  seq {
+    init;
+    while le.out with cond {
+      par { incr_idx; incr_st; }
+    }
+   upd; }}}
