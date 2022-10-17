@@ -370,7 +370,7 @@ You will see the same warning printing out repeatedly:
 ```
 WARN Computation over/underflow, source: counter.add
 ```
-Press `CTRL-C` to kill
+Press `CTRL-C` to kill the process.
 
 Reopen the debugger with:
 ```bash
