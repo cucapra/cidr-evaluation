@@ -1,5 +1,5 @@
-[![DOI](https://zenodo.org/badge/428745504.svg)](https://zenodo.org/badge/latestdoi/428745504)
 # Cider Evaluation
+[![DOI](https://zenodo.org/badge/428745504.svg)](https://zenodo.org/badge/latestdoi/428745504)
 
 This repository contains the evaluation materials for our ASPLOS 2023 paper
 entitled "Stepwise Debugging for Hardware Accelerators".
