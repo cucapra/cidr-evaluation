@@ -468,7 +468,7 @@ Run the following commands:
 ```
 > break incr_st
 > continue
-Breaking: counter::incr_st
+Hit breakpoint: counter::incr_st
 > print \u.16 acc_r.out
   acc_r.out = 0
 > step-over incr_st
