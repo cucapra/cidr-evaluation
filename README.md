@@ -37,9 +37,9 @@ In particular, it can cause Verilator compilation to take notably longer than
 running locally on the machine and may influence the graphs produced later.
 
 To get started, simply run:
-```
-docker pull ghcr.io/cucapra/cidr-eval:latest
-docker run -it ghcr.io/cucapra/cidr-eval:latest
+```bash
+# remove --rm if you want the container to persist on exit
+docker run -it --rm ghcr.io/cucapra/cidr-eval:latest
 ```
 
 You will now have a terminal open in the container and can proceed to
