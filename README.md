@@ -336,12 +336,14 @@ tools should be similar to those we collected.
 
 ## *(optional)* Interactive Debugging with Cider (~10 minutes)
 
-This section is meant to let you use Cider's interactive debugging mode instead
+This section is meant to let you use Cider's [interactive debugging mode][cider-docs] instead
 of the interpreter mode. For this, we've setup a few files from the example
 calyx program in section 2.2. These files are the same program, but with a
 hardcoded input value `x`, so that the example component can stand alone. This
 follows the debugging process shown in section 3. It will be useful to keep this
-portion of the paper handy while working through this section.
+portion of the paper handy while working through this section. And, if desired,
+the [docs][cider-docs] can also be consulted for more detailed discussions of
+Cider's commands
 
 To start, run the following command from the root directory:
 ```bash
@@ -495,3 +497,4 @@ free to play around or close the program at your leisure.
 [tvm]: https://tvm.apache.org/docs/install/from_source.html
 [dahlia]: https://capra.cs.cornell.edu/fuse/docs/installation/
 [runt]: https://github.com/rachitnigam/runt
+[cider-docs]: https://docs.calyxir.org/debug/cider.html
