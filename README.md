@@ -19,12 +19,13 @@ in the paper.
 This artifact is available in two formats: A docker container and through code
 repositories hosted on github.
 
-For both approaches, first clone this repository.
+If you are using the prebuilt docker image then you do not need to clone the
+repository, but should still keep this README file on hand. Otherwise run
 ```
 git clone https://github.com/cucapra/cidr-evaluation
 ```
 
-## Docker (est. 50 min)
+## Docker (est. 5-50 min)
 
 This requires [Docker][docker]. If running via Docker Desktop, you
 will need to increase the amount of memory the containers are allowed to use via
@@ -35,20 +36,25 @@ certain benchmarks to be killed before completing.
 In particular, it can cause Verilator compilation to take notably longer than
 running locally on the machine and may influence the graphs produced later.
 
-If running on a on a system with bash:
+To get started, simply run:
 ```
-bash scripts/setup.sh
+docker pull ghcr.io/cucapra/cidr-eval:latest
+docker run -it ghcr.io/cucapra/cidr-eval:latest
 ```
-this will build the docker image and start the container.
 
-If running without bash, the commands can instead be invoked directly:
-```
+You will now have a terminal open in the container and can proceed to
+[use the artifact](#step-by-step-guide).
+
+
+If instead you wish to build the docker image locally:
+```bash
+# if using bash
+bash scripts/setup.sh
+
+# or directly invoke the commands
 docker build . -t cider-eval:latest &&
 docker run -it cider-eval:latest
 ```
-
-Afterwards, you will have a terminal open in the container and can proceed to
-[use the artifact](#step-by-step-guide).
 
 ## Local Machine (est. 30-50+ min)
 
@@ -273,8 +279,8 @@ results for each of our benchmarks. We use the snapshot testing tool
 each benchmark. This means that all tools are producing the same exact results
 after running through jq formatting.
 
-From the root of this repo you can run the following command to evaluate all the
-benchmarks.
+From the root of this repo you can run the following command to evaluate *all the
+benchmarks*.
 ```bash
 # in cider-eval
 runt
@@ -287,7 +293,7 @@ This process will take some time to complete. In particular, NTT-64 can take a
 while for Verilator to compile and LeNet will take a long time to execute for
 Cider and Icarus.
 
-For a quick smoke test, you can run
+For a quick(er) smoke test, you can run
 ```bash
 # in cider-eval
 runt -x "lenet|ntt"
